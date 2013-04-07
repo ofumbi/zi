@@ -2,7 +2,7 @@
 
 class afrisoftClass
 {
-  private $dbx;
+	private $dbx;
 	public $user = array( );
 	public $privilege = 0;
 	private $member = array( );
@@ -834,102 +834,96 @@ class afrisoftClass
 		}
 	}
 	function dbarray( $sql )
-	{
-		$wlvqukqijy                = "sql";
-		$GLOBALS["oqtfynumzua"]    = "result";
-		$qcxpjgmforhp              = "result";
-		${$GLOBALS["oqtfynumzua"]} = $this->dbquery( ${$wlvqukqijy} );
-		if ( !${$qcxpjgmforhp} )
+	{/* 	This function connects and queries a database. It returns all rows from d result as a 2d array. */
+		
+		$result = $this->dbquery( $sql );
+		if ( !$result )
 			return;
 		$arr = array( );
 		while ( $row = mysql_fetch_assoc( $result ) ) {
-			$GLOBALS["igiyvhk"]        = "row";
-			$GLOBALS["bqrrxyqfz"]      = "arr";
-			${$GLOBALS["bqrrxyqfz"]}[] = ${$GLOBALS["igiyvhk"]};
+			$arr[] = $row;
 		}
 		return $arr;
 	}
 	function dbinsertid( )
-	{
+	{/* 	This function It returns insertid. */
 		return mysql_insert_id();
 	}
 	function dbval( $sql )
-	{
+	{ /* 	This function connects and queries a database. It returns a value requested. */
 		if ( is_null( $this->dbx ) )
 			$this->dbconnect();
-		$GLOBALS["tzvpxbdtkkk"]  = "result";
+		
 		$result = mysql_query( $this->cleanSQL( $sql), $this->dbx );
 		if ( !$result )
 			return;
-		$x = mysql_fetch_row( ${$GLOBALS["tzvpxbdtkkk"]} );
+		$x = mysql_fetch_row( $result );
 		return $x[0];
 	}
 	function checkmobile( )
 	{
-		$GLOBALS["ubfvraak"]    = "useragent";
-		${$GLOBALS["ubfvraak"]} = $_SERVER["HTTP_USER_AGENT"];
-		$tuodbpkhxw             = "useragent";
-		if ( preg_match( "/android.+mobile|avantgo|bada\\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i", $useragent ) || preg_match( "/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\\/)|klon|kpt |kwc\\-|kyo(c|k)|le(no|xi)|lg( g|\\/(k|l|u)|50|54|e\-|e\\/|\\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(di|rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\\-|oo|p\-)|sdk\\/|se(c(\\-|0|1)|47|mc|nd|ri)|sgh\\-|shar|sie(\\-|m)|sk\\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\\-9|up(\\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|xda(\\-|2|g)|yas\-|your|zeto|zte\\-/i", substr( ${$tuodbpkhxw}, 0, 4 ) ) )
+		$useragent = $_SERVER["HTTP_USER_AGENT"];
+		if ( preg_match( "/android.+mobile|avantgo|bada\\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i", $useragent ) || preg_match( "/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\\/)|klon|kpt |kwc\\-|kyo(c|k)|le(no|xi)|lg( g|\\/(k|l|u)|50|54|e\-|e\\/|\\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(di|rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\\-|oo|p\-)|sdk\\/|se(c(\\-|0|1)|47|mc|nd|ri)|sgh\\-|shar|sie(\\-|m)|sk\\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\\-9|up(\\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|xda(\\-|2|g)|yas\-|your|zeto|zte\\-/i", substr( $useragent, 0, 4 ) ) )
 			return true;
 		else
 			return false;
 	}
+	
+	######################################################
+	##		Function to get ip address of a client		##
+	######################################################
 	function getIpAddress( )
 	{
 		return ( empty( $_SERVER["HTTP_CLIENT_IP"] ) ? ( empty( $_SERVER["HTTP_X_FORWARDED_FOR"] ) ? $_SERVER["REMOTE_ADDR"] : $_SERVER["HTTP_X_FORWARDED_FOR"] ) : $_SERVER["HTTP_CLIENT_IP"] );
 	}
-	function getExtension( $str )
-	{
-		$ibjdwjbgjwi           = "str";
-		$GLOBALS["tcgyxbomdy"] = "i";
-		$GLOBALS["lpfohnuqu"]  = "ext";
-		$GLOBALS["tvcwqjbr"]   = "i";
-		$GLOBALS["quqnnx"]     = "l";
-		$i = strrpos( ${$ibjdwjbgjwi}, "." );
-		if ( !${$GLOBALS["tcgyxbomdy"]} ) {
-			return "";
-		}
-		$l  = strlen( $str ) - $i;
-		${$GLOBALS["lpfohnuqu"]} = substr( $str, ${$GLOBALS["tvcwqjbr"]} + 1, ${$GLOBALS["quqnnx"]} );
-		return $ext;
+	
+	
+	######################################################
+	##	This function returns the extension of the file.	##
+	######################################################
+	function getExtension($str) {
+			 $i = strrpos($str,".");
+			 if (!$i) { return ""; }
+			 $l = strlen($str) - $i;
+			 $ext = substr($str,$i+1,$l);
+			 return $ext;
 	}
-	function uploadNewFile( $fieldname, $allowedExt, $uploadsDirectory )
-	{
-		$GLOBALS["whdvxdn"]     = "errors";
-		$GLOBALS["dmmiybitlnh"] = "fieldname";
-		$GLOBALS["ukrtywn"]     = "errors";
-		$mxxwhiyrlbq            = "fieldname";
-		${$GLOBALS["ukrtywn"]}  = array(
-			1 => "Selected file is too large!",
-			2 => "Selected file is too large!",
-			3 => "Incomplete file upload!",
-			4 => "No file was selected!" 
-		);
-		$quciycczyfj            = "uploadFilename";
-		$GLOBALS["lveypiimj"]   = "now";
-		if ( !( $_FILES[$fieldname]["error"] == 0 ) )
-			return "Error - " . ${$GLOBALS["whdvxdn"]}[$_FILES[${$GLOBALS["dmmiybitlnh"]}]["error"]];
-		$GLOBALS["rhdqgzi"] = "uploadsDirectory";
-		if ( !( @is_uploaded_file( $_FILES[${$mxxwhiyrlbq}]["tmp_name"] ) ) )
-			return "Error - File is not an HTTP upload!";
-		$rlsjhtvxsl = "fieldname";
-		if ( !empty( $allowedExt ) ) {
-			$GLOBALS["goyxuhxeghik"] = "pos";
-			$GLOBALS["foyfcvccvkg"]  = "fieldname";
-			$ext    = $this->getExtension( $_FILES[${$GLOBALS["foyfcvccvkg"]}]["name"] );
-			$pos   = strripos( $allowedExt, $ext );
-			if ( ${$GLOBALS["goyxuhxeghik"]} === false )
-				return "Error - Invalid file type!";
+	
+	######################################################
+	##	this function upload a file and return its path	##
+	######################################################
+	function uploadNewFile($fieldname, $allowedExt, $uploadsDirectory){
+		// possible PHP upload errors
+		$errors = array(1 => 'Selected file is too large!',//php.ini max file size exceeded!
+						2 => 'Selected file is too large!',//html form max file size exceeded!
+						3 => 'Incomplete file upload!',//file upload was only partial!
+						4 => 'No file was selected!'); 
+	
+		
+		if(!($_FILES[$fieldname]['error'] == 0)) return 'Error - '.$errors[$_FILES[$fieldname]['error']];// check for PHP's built-in uploading errors
+		// check that the file we are working on really was the subject of an HTTP upload
+		if(!(@is_uploaded_file($_FILES[$fieldname]['tmp_name']))) return 'Error - File is not an HTTP upload!'; 
+		if(!empty($allowedExt)){
+			//Check if its in the allowed extension list
+			$ext = $this->getExtension($_FILES[$fieldname]['name']);
+			$pos = strripos($allowedExt,$ext);
+			if ($pos === false) return 'Error - Invalid file type!';
 		}
-		${$GLOBALS["lveypiimj"]} = time();
-		while ( file_exists( $uploadFilename = ${$GLOBALS["rhdqgzi"]} . $now . "-" . $_FILES[$fieldname]["name"] ) ) {
+		//create unique filename
+		$now = time();
+		while(file_exists($uploadFilename = $uploadsDirectory.$now.'-'.$_FILES[$fieldname]['name'])){    
 			$now++;
 		}
-		if ( !( move_uploaded_file( $_FILES[${$rlsjhtvxsl}]["tmp_name"], ${$quciycczyfj} ) ) )
-			return "Error - Unable to move file uploaded file";
-		else
-			return $uploadFilename;
+		// now let's move the file to its final location
+		if(!(move_uploaded_file($_FILES[$fieldname]['tmp_name'], $uploadFilename))) return 'Error - Unable to move file uploaded file'; 
+		else return $uploadFilename;
 	}
+	
+	######################################################################
+	##	Function to display all messages logged during page generation	##
+	##	the messages should be saved as make alert						##
+	######################################################################
+
 	function alert( )
 	{
 		if ( !isset( $_SESSION["messageToAlert"] ) )
@@ -941,244 +935,189 @@ class afrisoftClass
 			$_SESSION["messageToAlert"] = array( );
 		}
 	}
+	
+	
+	######################################################################
+	##	Function to create all messages logged during page generation	##
+	##	the messages should be saved as make alert						##
+	######################################################################
+	
 	function makeAlert( $msg = "" )
 	{
-		$GLOBALS["admcdriadk"] = "msg";
+		
 		if ( empty( $msg ) )
 			return;
-		$_SESSION["messageToAlert"][] = ${$GLOBALS["admcdriadk"]};
+		$_SESSION["messageToAlert"][] = $msg;
 	}
+	
+	
+	######################################################################
+	##	Function to count all messages logged during page generation	##
+	##																	##
+	######################################################################
 	function countAlert( )
 	{
 		return count( $_SESSION["messageToAlert"] );
 	}
+	
+	
+	######################################################################
+	##	Function to post with url via curl								##
+	##																	##
+	######################################################################
 	function urlPost( $site, $vars, $headers = 0 )
 	{
-		$utuqqot             = "site";
-		$GLOBALS["tvypgksi"] = "ch";
-		$wxnvjlccnsjv        = "ch";
 		if ( is_array( $vars ) ) {
-			$GLOBALS["tdkpcdev"]    = "temp";
-			$cesundnp               = "key";
-			${$GLOBALS["tdkpcdev"]} = array( );
-			$utgxlfenr              = "temp";
-			foreach ( $vars as ${$cesundnp} => $value )
+			$temp = array( );
+			foreach ( $vars as $key => $value )
 				$temp[] = $key . "=" . $value;
-			$vars = implode( "&", ${$utgxlfenr} );
+			$vars = implode( "&", $temp );
 		}
-		${$wxnvjlccnsjv}        = curl_init( ${$utuqqot} );
-		$GLOBALS["byuxvjsxtvt"] = "response";
-		if ( ${$GLOBALS["tvypgksi"]} ) {
-			$GLOBALS["ckewdmacfqv"] = "ch";
-			$epyzdxjcuj             = "ch";
-			$GLOBALS["ruaksd"]      = "headers";
-			$klykzpstv              = "ch";
-			curl_setopt( ${$GLOBALS["ckewdmacfqv"]}, CURLOPT_POST, 1 );
-			$krnhwskap = "ch";
+		$ch        = curl_init( $site );
+		if ( $ch ) {
+			curl_setopt( $ch, CURLOPT_POST, 1 );
 			curl_setopt( $ch, CURLOPT_POSTFIELDS, $vars );
-			$qfdxquabn = "response";
-			curl_setopt( ${$krnhwskap}, CURLOPT_FOLLOWLOCATION, 1 );
-			$mxkkhjpkg = "ch";
-			curl_setopt( ${$epyzdxjcuj}, CURLOPT_MAXREDIRS, 5 );
+			curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1 );
+			curl_setopt( $ch, CURLOPT_MAXREDIRS, 5 );
 			curl_setopt( $ch, CURLOPT_HEADER, $headers );
 			curl_setopt( $ch, CURLOPT_USERAGENT, "SMS Portal Creator" );
-			$eeroovnyk = "response";
-			curl_setopt( ${$klykzpstv}, CURLOPT_REFERER, "http://smsportalcreator.com" );
+			curl_setopt( $ch, CURLOPT_REFERER, "http://smsportalcreator.com" );
 			curl_setopt( $ch, CURLOPT_TIMEOUT, 60 );
 			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-			${$qfdxquabn} = curl_exec( ${$mxkkhjpkg} );
-			if ( ${$GLOBALS["ruaksd"]} )
-				$response = explode( "\r\n\r\n", ${$eeroovnyk}, 2 );
+			$response = curl_exec( $ch );
+			if ( $headers )
+				$response = explode( "\r\n\r\n", $response, 2 );
 		} else
 			$response = "";
-		return ${$GLOBALS["byuxvjsxtvt"]};
+		return $response;
 	}
+	
+		#######################################################################################################
+	##  The function to post a HTTP Request to the provided url passing the $_data array to the API	     ##
+	#######################################################################################################
 	function URLRequest( $url_full, $protocol = "GET" )
 	{
-		$vnulnueeo             = "url";
-		$mwtojesvegdv          = "port";
-		$GLOBALS["axhgtte"]    = "url";
-		$GLOBALS["gcydohgjzl"] = "url";
-		$rsufgqta              = "port";
-		$GLOBALS["futnviv"]    = "url";
-		${$vnulnueeo}          = parse_url( $url_full );
-		$GLOBALS["xlxdhcs"]    = "url";
-		${$mwtojesvegdv}       = ( empty( $url["port"] ) ) ? false : true;
-		if ( !${$rsufgqta} ) {
-			$pxjsagcjnr = "url";
+		$url          = parse_url( $url_full );
+		$port       = ( empty( $url["port"] ) ) ? false : true;
+		if ( !$port ) {
 			if ( $url["scheme"] == "http" ) {
-				$GLOBALS["meolqrtp"]            = "url";
-				${$GLOBALS["meolqrtp"]}["port"] = 80;
-			} elseif ( ${$pxjsagcjnr}["scheme"] == "https" ) {
+				$url["port"] = 80;
+			} elseif ( $url["scheme"] == "https" ) {
 				$url["port"] = 443;
 			}
 		}
-		${$GLOBALS["axhgtte"]}["query"]   = empty( $url["query"] ) ? "" : ${$GLOBALS["futnviv"]}["query"];
-		${$GLOBALS["gcydohgjzl"]}["path"] = empty( $url["path"] ) ? "" : ${$GLOBALS["xlxdhcs"]}["path"];
+		$url["query"]   = empty( $url["query"] ) ? "" : $url["query"];
+		$url["path"] = empty( $url["path"] ) ? "" : $url["path"];
 		if ( function_exists( "curl_init" ) ) {
-			$ouewgqgi = "protocol";
-			if ( ${$ouewgqgi} == "GET" ) {
-				$GLOBALS["yfjqlg"]        = "content";
-				$GLOBALS["hkljhosvytps"]  = "url";
-				$xkcfdlds                 = "url";
-				$ch = curl_init( ${$xkcfdlds}["protocol"] . $url["host"] . ${$GLOBALS["hkljhosvytps"]}["path"] . "?" . $url["query"] );
+			if ( $protocol == "GET" ) {
+				$ch = curl_init( $url["protocol"] . $url["host"] . $url["path"] . "?" . $url["query"] );
 				if ( $ch ) {
-					$GLOBALS["jriwegt"]  = "ch";
-					$GLOBALS["wjjydipm"] = "ch";
-					curl_setopt( ${$GLOBALS["wjjydipm"]}, CURLOPT_RETURNTRANSFER, true );
-					curl_setopt( ${$GLOBALS["jriwegt"]}, CURLOPT_HEADER, 0 );
-					$GLOBALS["aqzretxe"] = "ch";
-					$uhwbpuhj            = "content";
-					$utwenoglqc          = "url";
+					
+					curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+					curl_setopt( $ch, CURLOPT_HEADER, 0 );
 					if ( $port )
-						curl_setopt( $ch, CURLOPT_PORT, ${$utwenoglqc}["port"] );
-					$GLOBALS["ryeppiouk"] = "ch";
-					${$uhwbpuhj}          = curl_exec( ${$GLOBALS["aqzretxe"]} );
-					curl_close( ${$GLOBALS["ryeppiouk"]} );
-				} else
-					${$GLOBALS["yfjqlg"]} = "";
-			} else {
-				$vsgdocsa           = "ch";
-				$GLOBALS["vsvlmvl"] = "url";
-				${$vsgdocsa}        = curl_init( $url["protocol"] . ${$GLOBALS["vsvlmvl"]}["host"] . $url["path"] );
-				if ( $ch ) {
-					$GLOBALS["vpjmgjqfqc"] = "url";
-					$syqdjw                = "ch";
-					$jxyhwbgb              = "ch";
-					$GLOBALS["jxaoczgq"]   = "ch";
-					curl_setopt( $ch, CURLOPT_POST, 1 );
-					curl_setopt( $ch, CURLOPT_POSTFIELDS, ${$GLOBALS["vpjmgjqfqc"]}["query"] );
-					curl_setopt( ${$jxyhwbgb}, CURLOPT_FOLLOWLOCATION, 1 );
-					curl_setopt( ${$GLOBALS["jxaoczgq"]}, CURLOPT_MAXREDIRS, 5 );
-					curl_setopt( ${$syqdjw}, CURLOPT_HEADER, 0 );
-					$GLOBALS["myybdcwlcn"] = "ch";
-					curl_setopt( $ch, CURLOPT_USERAGENT, "SMS Portal Creator" );
-					$qtuyxgevced = "ch";
-					$tqsfjmqsk   = "port";
-					if ( ${$tqsfjmqsk} )
 						curl_setopt( $ch, CURLOPT_PORT, $url["port"] );
-					curl_setopt( ${$GLOBALS["myybdcwlcn"]}, CURLOPT_TIMEOUT, 60 );
+					$content          = curl_exec( $ch );
+					curl_close( $ch );
+				} else
+					$content = "";
+			} else {
+				${$vsgdocsa}        = curl_init( $url["protocol"] . $url["host"] . $url["path"] );
+				if ( $ch ) {
+					curl_setopt( $ch, CURLOPT_POST, 1 );
+					curl_setopt( $ch, CURLOPT_POSTFIELDS, $url["query"] );
+					curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1 );
+					curl_setopt( $ch, CURLOPT_MAXREDIRS, 5 );
+					curl_setopt( $ch, CURLOPT_HEADER, 0 );
+					curl_setopt( $ch, CURLOPT_USERAGENT, "SMS Portal Creator" );
+	
+					if ( $port)
+						curl_setopt( $ch, CURLOPT_PORT, $url["port"] );
+					curl_setopt( $ch, CURLOPT_TIMEOUT, 60 );
 					curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
 					$content = curl_exec( $ch );
-					curl_close( ${$qtuyxgevced} );
+					curl_close( $ch );
 				} else
 					$content = "";
 			}
 		} else if ( function_exists( "fsockopen" ) ) {
-			$bvwbhjqpudb                           = "url";
-			$GLOBALS["nelelgdfg"]                  = "h";
-			$GLOBALS["oysyvuvzibn"]                = "headers";
-			$xosafyu                               = "getdata_str";
 			$url["protocol"] = $url["scheme"] . "://";
-			$gfvqtfpfn                             = "h";
-			$GLOBALS["ulcluer"]                    = "url";
-			$GLOBALS["yisdme"]                     = "protocol";
-			$gsulpkoth                             = "url";
-			$GLOBALS["hmcuhyfjrr"]                 = "eol";
-			$adfchhspni                            = "postdata_str";
-			$tsumuxxoi                             = "url";
-			$GLOBALS["ygfobszacm"]                 = "errno";
-			${$GLOBALS["hmcuhyfjrr"]}              = "\r\n";
-			${$gfvqtfpfn}                          = "";
-			$postdata_str                 = "";
-			$getdata_str              = "";
-			$GLOBALS["nkchvh"]                     = "errstr";
-			$wssqjqjxzlso                          = "fp";
-			if ( ${$GLOBALS["yisdme"]} == "POST" ) {
-				$GLOBALS["ykmbwqrhidlo"] = "eol";
-				$GLOBALS["rwmfixwwp"]    = "eol";
-				$fhxbtwlju               = "h";
-				$GLOBALS["trrqagv"]      = "postdata_str";
-				${$fhxbtwlju}            = "Content-Type: text/html" . ${$GLOBALS["rwmfixwwp"]} . "Content-Length: " . strlen( $url["query"] ) . ${$GLOBALS["ykmbwqrhidlo"]};
-				${$GLOBALS["trrqagv"]}   = $url["query"];
+			$eol             = "\r\n";
+			$h               = "";
+			$postdata_str    = "";
+			$getdata_str     = "";
+			if ( $protocol == "POST" ) {
+				$h           = "Content-Type: text/html" . $eol . "Content-Length: " . strlen( $url["query"] ) . $eol;
+				$postdata_str   = $url["query"];
 			} else
-				${$xosafyu} = "?" . ${$bvwbhjqpudb}["query"];
-			$GLOBALS["aprefhmtggt"]    = "eol";
-			$wmpcpljihx                = "url";
-			${$GLOBALS["oysyvuvzibn"]} = "$protocol " . $url["protocol"] . ${$tsumuxxoi}["host"] . $url["path"] . $getdata_str . " HTTP/1.0" . $eol . "Host: " . ${$wmpcpljihx}["host"] . $eol . "Referer: " . $url["protocol"] . ${$GLOBALS["ulcluer"]}["host"] . ${$gsulpkoth}["path"] . $eol . ${$GLOBALS["nelelgdfg"]} . "Connection: Close" . $eol . ${$GLOBALS["aprefhmtggt"]} . ${$adfchhspni};
-			$GLOBALS["vfyubeo"]        = "url";
-			$fp  = fsockopen( ${$GLOBALS["vfyubeo"]}["host"], $url["port"], ${$GLOBALS["ygfobszacm"]}, ${$GLOBALS["nkchvh"]}, 60 );
-			if ( ${$wssqjqjxzlso} ) {
-				$nfeshdqm    = "headers";
-				$ughtxogyeks = "content";
-				$blwfrh      = "content";
-				$vfmaxdefqd  = "fp";
-				$ytlsrsvy    = "pattern";
-				$jdqcflsfn   = "fp";
-				fputs( ${$vfmaxdefqd}, ${$nfeshdqm} );
-				${$ughtxogyeks} = "";
-				while ( !feof( ${$jdqcflsfn} ) ) {
+				$getdata_str = "?" . $url["query"];
+			$headers = "$protocol " . $url["protocol"] . $url["host"] . $url["path"] . $getdata_str . " HTTP/1.0" . $eol . "Host: " . $url["host"] . $eol . "Referer: " . $url["protocol"] . $url["host"] . $url["path"] . $eol . $h . "Connection: Close" . $eol . $eol . $postdata_str;
+			$fp  = fsockopen( $url["host"], $url["port"], $errno, $errstr, 60 );
+			if ( $fp ) {
+				fputs( $fp, $headers );
+				$content = "";
+				while ( !feof( $fp ) ) {
 					$content .= fgets( $fp, 128 );
 				}
 				fclose( $fp );
-				${$ytlsrsvy}               = "/^.*\r\n\r\n/s";
-				$content = preg_replace( $pattern, "", ${$blwfrh} );
+				
+				//remove headers
+				$pattern               = "/^.*\r\n\r\n/s";
+				$content = preg_replace( $pattern, "", $content);
 			}
 		} else {
 			try {
-				$jobhvhp = "protocol";
-				if ( ${$jobhvhp} == "GET" )
+				if ( $protocol == "GET" )
 					return file_get_contents( $url_full );
-				else {
-					$qcmjyzx                   = "site";
-					$ctkyvupfhny               = "site";
-					$GLOBALS["vtnsumtbsks"]    = "url_full";
-					${$qcmjyzx}                = explode( "?", ${$GLOBALS["vtnsumtbsks"]}, 2 );
-					$GLOBALS["gjrcllsfpv"]     = "site";
-					$content = file_get_contents( ${$ctkyvupfhny}[0], false, stream_context_create( array(
+				else {                   
+					$site   = explode( "?", $url_full, 2 );
+					$content = file_get_contents( $site[0], false, stream_context_create( array(
 						"http" => array(
 							"method" => "POST",
-							"header" => "Connection: close\r\nContent-Length: " . strlen( ${$GLOBALS["gjrcllsfpv"]}[1] ) . "\r\n",
+							"header" => "Connection: close\r\nContent-Length: " . strlen( $site[1] ) . "\r\n",
 							"content" => $site[1] 
 						) 
 					) ) );
 				}
 			}
 			catch ( Exception $g ) {
-				$GLOBALS["gllvuvl"]    = "content";
-				${$GLOBALS["gllvuvl"]} = "";
+				
+				$content = "";
 			}
 		}
 		return $content;
 	}
+	
+	///////////////////////////////////////////////////////////////////////////
+
+	
+	##############################################
+	## 		correct gsm numbers					##
+	##############################################
 	function alterPhone( $gsm )
 	{
-		$GLOBALS["urnedfebtrm"]     = "outArray";
-		$GLOBALS["rzygxofirfa"]     = "gsm";
-		$GLOBALS["ueblqfajftx"]     = "gsm";
-		$GLOBALS["yocntv"]          = "gsm";
-		$array    = is_array( ${$GLOBALS["rzygxofirfa"]} );
-		$dcpxymel                   = "gsm";
-		$GLOBALS["jmvedlogcxol"]    = "outArray";
-		$ehlwbshp                   = "array";
-		$xlrcripst                  = "gsm";
-		${$GLOBALS["yocntv"]}       = ( ${$ehlwbshp} ) ? ${$GLOBALS["ueblqfajftx"]} : explode( ",", ${$xlrcripst} );
-		$homeCountry   = $this->setting( "countryCode" );
-		${$GLOBALS["jmvedlogcxol"]} = array( );
-		foreach ( ${$dcpxymel} as $item ) {
-			if ( !empty( $item ) ) {
-				$gtdbukppwde           = "item";
-				$GLOBALS["mgsuiyx"]    = "item";
-				$GLOBALS["ojcnzglao"]  = "item";
-				$GLOBALS["fhusome"]    = "homeCountry";
-				$agjhftjbwmt           = "item";
-				${$GLOBALS["mgsuiyx"]} = explode( "=", $item );
-				$GLOBALS["ftpervvvy"]  = "item";
-				$hqojweitjy            = "outArray";
-				${$gtdbukppwde}        = $item[0];
-				if ( substr( $item, 0, 1 ) == "+" )
-					$item = substr( ${$GLOBALS["ftpervvvy"]}, 1 );
-				if ( substr( $item, 0, 3 ) == "009" )
-					$item = substr( ${$agjhftjbwmt}, 3 );
-				${$hqojweitjy}[] = ( substr( ${$GLOBALS["ojcnzglao"]}, 0, 1 ) == "0" ) ? ${$GLOBALS["fhusome"]} . substr( $item, 1 ) : $item;
+		$array = is_array($gsm);
+		$gsm = ($array) ? $gsm : explode(",",$gsm);
+		$homeCountry = $this -> setting("countryCode");
+		$outArray = array();
+		foreach($gsm as $item)
+		{
+			if(!empty($item)){
+				$item = explode("=",$item);
+				$item = $item[0];
+				$item = (substr($item,0,1) == "+") ? substr($item,1) : $item;
+				$item = (substr($item,0,3) == "009") ? substr($item,3): $item;
+				$outArray[] = (substr($item,0,1) == "0") ? $homeCountry.substr($item,1): $item;
 			}
 		}
-		return ( $array ) ? $outArray : implode( ",", ${$GLOBALS["urnedfebtrm"]} );
+		return ($array) ? $outArray : implode(",",$outArray);
 	}
-	function correctCommas( $csv )
-	{
-		$okyyrhpm              = "csv";
-		$fzjzpmfewj            = "inpt";
+	
+	##############################################
+	## 		correct input csv numbers			##
+	##############################################
+	
+	function correctCommas( $csv ){
 		$inpt = array(
 			"\r",
 			"\n",
@@ -1204,229 +1143,186 @@ class afrisoftClass
 			"+",
 			"=" 
 		);
-		$qhycnsnsduv           = "csv";
-		$uwjbgwtntchm          = "csv";
-		${$okyyrhpm}           = str_replace( ${$fzjzpmfewj}, ",", ${$uwjbgwtntchm} );
+		$csv           = str_replace( $inpt, ",", $csv );
 		while ( strpos( $csv, ",," ) !== false ) {
-			$GLOBALS["trtszgiymm"]     = "csv";
-			$csv = str_replace( ",,", ",", ${$GLOBALS["trtszgiymm"]} );
+			$csv = str_replace( ",,", ",", $csv );
 			$csv = str_replace( ",,", ",", $csv );
 		}
-		return trim( ${$qhycnsnsduv}, "," );
+		return trim( $csv, "," );
 	}
-	function uniqueArray( $myArray )
-	{
-		$qrfwbiapgd              = "myArray";
-		$gdswssxc                = "myArray";
-		$fdiyqbogob              = "array";
-		$GLOBALS["lcwtrdruhwd"]  = "array";
-		$GLOBALS["rtqhkrnnoxr"]  = "myArray";
-		$GLOBALS["ahiurhejs"]    = "myArray";
-		$array = is_array( ${$gdswssxc} );
-		$myArray   = ( ${$GLOBALS["lcwtrdruhwd"]} ) ? $myArray : explode( ",", ${$GLOBALS["rtqhkrnnoxr"]} );
-		$myArray   = array_flip( array_flip( array_reverse( $myArray, true ) ) );
-		return ( ${$fdiyqbogob} ) ? ${$GLOBALS["ahiurhejs"]} : implode( ",", ${$qrfwbiapgd} );
+	
+	##############################################
+	## 		get unique array fields				##
+	##############################################
+	function uniqueArray($myArray) {
+		$array = is_array($myArray);
+		$myArray = ($array) ? $myArray: explode(",",$myArray);
+		$myArray = array_flip(array_flip(array_reverse($myArray,true)));
+		return ($array) ? $myArray : implode(',',$myArray);
 	}
-	function filterNos( $csv )
-	{
-		$GLOBALS["oawogut"]        = "csv";
-		$GLOBALS["rlnurweelosn"]   = "validArray";
-		$GLOBALS["zdhingeo"]       = "csv";
-		$array   = is_array( ${$GLOBALS["oawogut"]} );
-		$GLOBALS["eeckdcwk"]       = "csv";
-		$GLOBALS["hkbablng"]       = "array";
-		$csv = ( ${$GLOBALS["hkbablng"]} ) ? $csv : explode( ",", ${$GLOBALS["eeckdcwk"]} );
-		$validArray      = array( );
-		foreach ( ${$GLOBALS["zdhingeo"]} as $value ) {
-			$l = strlen( $value );
-			if ( $l >= 7 && $l <= 15 )
-				$validArray[] = $value;
+	
+	
+	
+	##############################################
+	## 		correct input gsm numbers			##
+	##############################################
+	function filterNos($csv) {
+		$array = is_array($csv);
+		$csv = ($array) ? $csv : explode(",",$csv);
+		$validArray = array();
+		foreach($csv as $value){
+			$l = strlen($value);
+			if($l >= 7 && $l <= 15) $validArray[]= $value;
 		}
-		return ( $array ) ? $validArray : implode( ",", ${$GLOBALS["rlnurweelosn"]} );
+		return ($array) ? $validArray : implode(',',$validArray);
 	}
-	function customizeMsg( $msg, $username = '', $name = '', $email = '', $GSM = '', $units = 'x', $orderAmt = '', $orderUnits = '' )
-	{
-		$tlsmfvodewz              = "inpt";
-		$vdwykywykx               = "oupt";
-		$GLOBALS["srynxespm"]     = "oupt";
-		$okknnwprur               = "inpt";
-		$GLOBALS["jpmgmxvuf"]     = "name";
-		${$tlsmfvodewz}           = array(
-			"@@username@@",
-			"@@name@@",
-			"@@email@@",
-			"@@GSM@@",
-			"@@units@@",
-			"@@orderAmt@@",
-			"@@orderUnits@@" 
-		);
-		${$vdwykywykx}            = array(
-			$username,
-			${$GLOBALS["jpmgmxvuf"]},
-			$email,
-			$GSM,
-			$units,
-			$orderAmt,
-			$orderUnits 
-		);
-		$msg = str_ireplace( ${$okknnwprur}, ${$GLOBALS["srynxespm"]}, $msg );
+	
+	##############################################
+	## 			Replace user parameters			##
+	##############################################
+	function customizeMsg($msg,$username='',$name='',$email='',$GSM='',$units='x',$orderAmt='',$orderUnits='') {
+		$inpt= array('@@username@@','@@name@@','@@email@@','@@GSM@@','@@units@@','@@orderAmt@@','@@orderUnits@@');
+		$oupt= array($username,$name,$email,$GSM,$units,$orderAmt,$orderUnits);
+		$msg= str_ireplace($inpt,$oupt,$msg);
 		return $msg;
 	}
-	function mceil( $x )
-	{
-		$yteazqoc               = "c";
-		$GLOBALS["dfojxpyx"]    = "c";
-		$tksrcierjjck           = "y";
-		$GLOBALS["zgnlkbord"]   = "c";
-		$GLOBALS["srkuerwb"]    = "y";
-		$hmtxpc                 = "y";
-		${$GLOBALS["dfojxpyx"]} = 1;
-		return ( ( ${$tksrcierjjck} = $x / ${$GLOBALS["zgnlkbord"]} ) == ( $y = (int) ${$hmtxpc} ) ) ? $x : ( $x >= 0 ? ++${$GLOBALS["srkuerwb"]} : --$y ) * ${$yteazqoc};
+	
+	
+	
+	
+	##############################################
+	## 			Round up numbers				##
+	## 		function ceil in php has			##
+	## 	  a bug so this mceil was written		##
+	##############################################
+	function mceil($x) {
+		$c = 1;
+		return  ( ($y = $x/$c) == ($y = (int)$y) ) ? $x : ( $x>=0 ?++$y:--$y)*$c ; 
 	}
-	function generatePassword( $length = 10 )
-	{
-		$GLOBALS["hlhbfnj"]         = "p";
-		$characters      = "QWERTYU23456789PLKJHGFDSAZXCVBNM ";
-		$string = "";
-		$ruivldbh                   = "p";
-		for ( $p = 0; ${$GLOBALS["hlhbfnj"]} < $length; ${$ruivldbh}++ ) {
-			$jupkneng  = "string";
-			$vdqlyqqkr = "characters";
-			${$jupkneng} .= $characters[mt_rand( 0, strlen( ${$vdqlyqqkr} ) )];
+	
+	
+	
+	
+	##############################################
+	## 			Generate random characters		##
+	##############################################
+	function generatePassword($length=10){
+	   $characters = "QWERTYU23456789PLKJHGFDSAZXCVBNM ";
+		$string = "";    
+		for ($p = 0; $p < $length; $p++) {
+			$string .= $characters[mt_rand(0, strlen($characters))];
 		}
 		return $string;
 	}
-	function isValidEmail( $email )
-	{
-		$jcrian = "email";
-		if ( !preg_match( "/^[_\.0-9a-zA-Z-]+@([0-9a-zA-Z][0-9a-zA-Z-]+\\.)+[a-zA-Z]{2,6}\$/i", ${$jcrian} ) ) {
-			return false;
-		}
-		return true;
-	}
-	function datedsub( $first_date, $second_date, $f = "d" )
-	{
-		$GLOBALS["jybmbh"]         = "d2";
-		$GLOBALS["fvhezunyoob"]    = "delta";
-		$GLOBALS["emmpvc"]         = "num";
-		$iyydplrkuyl               = "first_date";
-		$qrpxtqqjq                 = "d2";
-		$rtlkfj                    = "num";
-		$dl = strtotime( ${$iyydplrkuyl} );
-		$quclwoee                  = "num";
-		$GLOBALS["huatusqf"]       = "delta";
-		$GLOBALS["gywhusc"]        = "delta";
-		$GLOBALS["fhehtbymrla"]    = "num";
-		${$GLOBALS["jybmbh"]}      = strtotime( $second_date );
-		$jkmvravrh                 = "f";
-		$ipvhuenbb                 = "delta";
-		$GLOBALS["chwhtaim"]       = "delta";
-		$GLOBALS["pjvkdstdh"]      = "d1";
-		${$GLOBALS["fvhezunyoob"]} = ${$qrpxtqqjq} - ${$GLOBALS["pjvkdstdh"]};
-		switch ( ${$jkmvravrh} ) {
-			case "d":
-				${$rtlkfj} = ( ${$GLOBALS["gywhusc"]} / 86400 );
-				break;
-			case "h":
-				${$GLOBALS["emmpvc"]} = ( ${$GLOBALS["huatusqf"]} / ( 3600 ) );
-				break;
-			case "m":
-				$num = ( ${$GLOBALS["chwhtaim"]} / ( 60 ) );
-				break;
-			default:
-				${$quclwoee} = ( ${$ipvhuenbb} / 86400 );
-		}
-		return round( ${$GLOBALS["fhehtbymrla"]}, 0, PHP_ROUND_HALF_UP );
-	}
-	function thisURL( )
-	{
-		$pageURL = "http";
-		$qxxxdrhcm             = "pageURL";
-		if ( isset( $_SERVER["HTTPS"] ) && $_SERVER["HTTPS"] == "on" ) {
-			$pageURL .= "s";
-		}
-		${$qxxxdrhcm} .= "://";
-		if ( $_SERVER["SERVER_PORT"] != "80" ) {
-			$vluokvwwhrmk = "pageURL";
-			${$vluokvwwhrmk} .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . $_SERVER["REQUEST_URI"];
+	
+	
+	
+	##############################################
+	##		Validate an email address 			##
+	##############################################
+	function isValidEmail($email){
+		if(!preg_match("/^[_\.0-9a-zA-Z-]+@([0-9a-zA-Z][0-9a-zA-Z-]+\.)+[a-zA-Z]{2,6}$/i", $email)) {
+			return false; 
 		} else {
-			$GLOBALS["ebouxv"] = "pageURL";
-			${$GLOBALS["ebouxv"]} .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
+			return true;
 		}
-		return $pageURL;
 	}
+
+	
+	##############################################################################################
+	##	Function to subtract two dates and return the difference in d= days, h=hours, m=minutes 	##
+	##############################################################################################
+	function datedsub($first_date,$second_date,$f="d"){
+		$d1 = strtotime($first_date);
+		$d2 = strtotime($second_date);
+		$delta = $d2 - $d1;
+		switch ($f)
+		{
+			case "d":
+				$num = ($delta / 86400);
+			break;
+			case "h":
+				$num = ($delta / (3600));;
+			break;
+			case "m":
+				$num = ($delta / (60));;
+			break;
+			default:
+				$num = ($delta / 86400);
+		} 
+		return round($num,0,PHP_ROUND_HALF_UP);
+	
+	}
+	
+	
+	
+	###############################################
+	##				Get page url				 ##
+	###############################################
+	function thisURL() {
+		 $pageURL = 'http';
+		 if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
+		 $pageURL .= "://";
+		 if ($_SERVER["SERVER_PORT"] != "80") {
+		  $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
+		 } else {
+		  $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+		 }
+		 return $pageURL;
+	}
+	
+	
+	###############################################
+	##				Reload the current page 	 ##
+	##		without resending POST variables	 ##
+	###############################################
+	
+	
 	function pageReload( )
 	{
 		die( "<meta http-equiv=\"refresh\" content=\"0\"/> <script type=\"text/javascript\">window.location.href=window.location.href;</script><input type=\"button\" value=\"      [PROCEED]      \" onClick=\"window.location.href=window.location.href\">" );
 	}
-	function fetchFiles( $directory, $filter = "" )
-	{
-		$GLOBALS["jnlhcpvenbmn"] = "directory";
-		$ucfbfxrgq               = "handler";
-		$khtnmbb                 = "handler";
-		$cusedbtl                = "results";
-		$juahqokqk               = "file";
-		${$cusedbtl}             = array( );
-		$handler    = opendir( ${$GLOBALS["jnlhcpvenbmn"]} );
-		while ( ${$juahqokqk} = readdir( ${$ucfbfxrgq} ) ) {
-			$yglrmmnmlpq         = "file";
-			$GLOBALS["dxccpzfa"] = "file";
-			if ( ${$GLOBALS["dxccpzfa"]} != "." && ${$yglrmmnmlpq} != ".." ) {
-				$GLOBALS["pjfkodsgwg"] = "filter";
-				if ( ( !empty( $filter ) && stripos( $file, $filter ) !== false ) || empty( ${$GLOBALS["pjfkodsgwg"]} ) )
-					$results[] = $file;
+	
+	##################################################
+	##			Fetch files in a directory			##
+	##################################################
+	
+	 function fetchFiles ($directory,$filter="") {
+		// create an array to hold directory list
+		$results = array();
+		
+		// create a handler for the directory
+		$handler = opendir($directory);
+		
+		// open directory and walk through the filenames
+		while ($file = readdir($handler)) {
+			// if file isn't this directory or its parent,  and contains the filter or filter is empty, add it to the results
+			if ($file != "." && $file != "..") {
+			if((!empty($filter) && stripos($file,$filter) !== false) || empty($filter)) $results[] = $file;
 			}
 		}
-		closedir( ${$khtnmbb} );
+		closedir($handler);
 		return $results;
-	}
+	  }
+
+
+	##################################################
+	##			tabulation							##
+	##################################################
+	
+
 	function autoGrid( $tablename, $primaryKey, $query, $optional = array( ) )
 	{
-		$vmlnvcrdwhf                                  = "optional";
-		$GLOBALS["txjxpvqrpla"]                       = "numrows";
-		$GLOBALS["nvixsqenl"]                         = "paginationArray";
-		$vowvvhugscfk                                 = "rowsperpage";
-		$GLOBALS["imsyxwfhpmci"]                      = "x";
-		$pxjduxv                                      = "range";
-		$nqegme                                       = "optional";
-		$GLOBALS["pgtzqszunmr"]                       = "optional";
-		$knapnysv                                     = "paginationArray";
-		$GLOBALS["tbrxmb"]                            = "paginationArray";
-		$tfhjcrr                                      = "url";
-		$upjgmlnrt                                    = "optional";
-		$GLOBALS["uaiowj"]                            = "this_page";
-		$lndkmirdn                                    = "paginationArray";
-		$GLOBALS["mzqorbxdkfr"]                       = "this_page";
-		$GLOBALS["mlvokfjyoqf"]                       = "rowsperpage";
-		$GLOBALS["tfqxnojqxyv"]                       = "paginationArray";
-		$axkmpdehykcf                                 = "paginationArray";
-		$gymlligjmxii                                 = "range";
-		$GLOBALS["jkmsdibfoo"]                        = "datagrid";
-		$GLOBALS["zvrjjaes"]                          = "optional";
-		$hdwjoegupvqh                                 = "currentpage";
-		$GLOBALS["jwfbwsng"]                          = "currentpage";
-		$optional["return"]          = empty( $optional["return"] ) ? 1 : ${$upjgmlnrt}["return"];
-		$GLOBALS["wbgehirb"]                          = "rowsperpage";
-		$optional["page_link_class"] = ( empty( ${$GLOBALS["pgtzqszunmr"]}["page_link_class"] ) ) ? "" : "class=\"" . $optional["page_link_class"] . "\"";
-		${$GLOBALS["jkmsdibfoo"]}                     = array( );
-		$brgxkjtc                                     = "this_page";
-		$kkjigyjcpyux                                 = "paginationArray";
-		$xxknypahw                                    = "paginationArray";
-		$vtzjjou                                      = "numrows";
-		$GLOBALS["tfkxbcyyp"]                         = "dataTable";
+		$optional["return"]          = empty( $optional["return"] ) ? 1 : $optional["return"];
+		$optional["page_link_class"] = ( empty( $optional["page_link_class"] ) ) ? "" : "class=\"" . $optional["page_link_class"] . "\"";
+		$datagrid                     = array( );
 		if ( empty( $optional["where_condition"] ) )
-			${$GLOBALS["zvrjjaes"]}["where_condition"] = "1=1";
-		$evbnsjvrzrc         = "optional";
-		$GLOBALS["ljvysxli"] = "this_page";
-		$GLOBALS["vqzmeghp"] = "range";
-		$ietqdithlw          = "pagination";
-		if ( is_array( ${$vmlnvcrdwhf}["search_array"] ) ) {
+			$optional["where_condition"] = "1=1";
+		if ( is_array( $optional["search_array"] ) ) {
 			if ( isset( $_POST["srch_field"] ) )
 				$_SESSION["srch_field"] = $_POST["srch_field"];
 			if ( isset( $_POST["search_word"] ) )
 				$_SESSION["search_word"] = $_POST["search_word"];
-			$GLOBALS["otnaaimzh"] = "searchForm";
-			$xzbxjsbrmz           = "searchForm";
 			if ( isset( $_POST["search_now"] ) && $_POST["search_now"] == "Reset" ) {
 				$_SESSION["query_condition"] = "1=1";
 				$_GET["currentpage"]         = 1;
@@ -1448,289 +1344,205 @@ class afrisoftClass
 			$searchForm = "<div class=\"full\" align=\"right\">" . "<form name=\"searchForm\" method=\"post\" action=\"\">" . "<input type=\"text\" class=\"searchbox\" name=\"search_word\"  placeholder=\"Search word\" value=\"";
 			if ( isset( $_POST["search_now"] ) && $_POST["search_now"] != "Reset" )
 				$searchForm .= $_SESSION["search_word"];
-			$jmgvnhnxru = "key";
-			${$GLOBALS["otnaaimzh"]} .= "\" /><select name=\"srch_field\" >";
-			foreach ( $optional["search_array"] as ${$jmgvnhnxru} => $value ) {
-				$cdhshheonon                = "key";
+			$searchForm .= "\" /><select name=\"srch_field\" >";
+			foreach ( $optional["search_array"] as $key => $value ) {
 				$sel = "";
 				if ( isset( $_SESSION["srch_field"] ) )
-					$sel = ( $_SESSION["srch_field"] == ${$cdhshheonon} ) ? " selected=\"selected\"" : "";
-				$gjhfprgh = "searchForm";
-				${$gjhfprgh} .= "<option value='$key' $sel > $value </option>";
+					$sel = ( $_SESSION["srch_field"] == $key ) ? " selected=\"selected\"" : "";
+				
+				$searchForm .= "<option value='$key' $sel > $value </option>";
 			}
-			${$xzbxjsbrmz} .= "</select>" . "<input type=\"submit\" class=\"myButton\" name=\"search_now\" value=\"Search\" />" . "<input type=\"submit\" class=\"myButton\" name=\"search_now\" value=\"Reset\" />" . "</form>" . "</div>";
+			$searchForm .= "</select>" . "<input type=\"submit\" class=\"myButton\" name=\"search_now\" value=\"Search\" />" . "<input type=\"submit\" class=\"myButton\" name=\"search_now\" value=\"Reset\" />" . "</form>" . "</div>";
 		} else {
 			$searchForm      = "";
 			$_SESSION["query_condition"] = "";
 		}
-		$fhwvdijk                                     = "range";
 		$_SESSION["query_condition"]                  = empty( $_SESSION["query_condition"] ) ? "1=1" : $_SESSION["query_condition"];
-		$optional["where_condition"] = ${$evbnsjvrzrc}["where_condition"] . " AND " . $_SESSION["query_condition"];
-		$paginationArray                   = array( );
-		$ibfrvqikp                                    = "rowsperpage";
+		$optional["where_condition"] = $optional["where_condition"] . " AND " . $_SESSION["query_condition"];
+		$paginationArray             = array( );
 		$this_page                       = parse_url( $this->thisURL() );
-		${$brgxkjtc}["path"]                          = ( substr( ${$GLOBALS["uaiowj"]}["path"], -1 ) == "/" || substr( $this_page["path"], -4, 1 ) == "." ) ? $this_page["path"] : $this_page["path"] . "/";
-		$this_page                       = $this_page["scheme"] . "://" . ${$GLOBALS["ljvysxli"]}["host"] . ${$GLOBALS["mzqorbxdkfr"]}["path"];
-		parse_str( $_SERVER["QUERY_STRING"], ${$tfhjcrr} );
+		$this_page["path"]                          = ( substr( $this_page["path"], -1 ) == "/" || substr( $this_page["path"], -4, 1 ) == "." ) ? $this_page["path"] : $this_page["path"] . "/";
+		$this_page                       = $this_page["scheme"] . "://" . $this_page["host"] . $range["path"];
+		parse_str( $_SERVER["QUERY_STRING"], $url );
 		$rowsperpage = empty( $optional["page_size"] ) ? $this->setting( "rows_per_page" ) : $optional["page_size"];
-		if ( ${$GLOBALS["wbgehirb"]} <= 1 )
-			${$GLOBALS["mlvokfjyoqf"]} = 10;
-		${$pxjduxv}              = empty( $optional["range"] ) ? 2 : ${$nqegme}["range"];
+		if ( $rowsperpage <= 1 )
+			$rowsperpage = 10;
+		$range              = empty( $optional["range"] ) ? 2 : $optional["range"];
 		$numrows = "select count(*) as cnt from $tablename ";
-		${$vtzjjou} .= ( stripos( $optional["where_condition"], "WHERE" ) === false ) ? "WHERE " . $optional["where_condition"] : $optional["where_condition"];
+		$numrows .= ( stripos( $optional["where_condition"], "WHERE" ) === false ) ? "WHERE " . $optional["where_condition"] : $optional["where_condition"];
 		$numrows   = $this->dbval( $numrows );
-		$totalpages = ceil( $numrows / ${$ibfrvqikp} );
-		$GLOBALS["hfsdqna"]        = "totalpages";
+		$totalpages = ceil( $numrows / $rowsperpage );
 		$currentpage     = isset( $_GET["currentpage"] ) ? $_GET["currentpage"] : 1;
-		if ( $currentpage > ${$GLOBALS["hfsdqna"]} )
+		if ( $currentpage > $totalpages )
 			$currentpage = $totalpages;
-		$khbgsnjhzd = "grid";
 		if ( $currentpage < 1 )
 			$currentpage = 1;
 		$offset           = ( $currentpage - 1 ) * $rowsperpage;
-		$bjqhkujlr                           = "x";
 		$paginationArray["start"] = ( $numrows == 0 ) ? 0 : $offset + 1;
-		$GLOBALS["auyhxpgdps"]               = "rowsperpage";
-		$paginationArray["total"] = ${$GLOBALS["txjxpvqrpla"]};
-		${$knapnysv}["size"]                 = ( ( $paginationArray["start"] + ${$vowvvhugscfk} ) > $paginationArray["total"] ) ? ( ${$xxknypahw}["total"] - ${$kkjigyjcpyux}["start"] ) + 1 : ${$GLOBALS["auyhxpgdps"]};
+		$paginationArray["total"] = $numrows;
+		$paginationArray["size"]                 = ( ( $paginationArray["start"] + $rowsperpage ) > $paginationArray["total"] ) ? ( $paginationArray["total"] - $paginationArray["start"] ) + 1 : $rowsperpage;
 		$pagination               = "Pages: ";
 		if ( $currentpage - $range > 1 ) {
-			$ilckrfyn                   = "url";
-			${$ilckrfyn}["currentpage"] = 1;
+			$url["currentpage"] = 1;
 			$pagination .= "<a {$optional['page_link_class']} href='$this_page?" . http_build_query( $url ) . "'><u>1</u></a>...";
 		}
-		for ( $x = ( $currentpage - ${$fhwvdijk} ); ${$bjqhkujlr} < ( ( ${$GLOBALS["jwfbwsng"]} + ${$GLOBALS["vqzmeghp"]} ) + 1 ); ${$GLOBALS["imsyxwfhpmci"]}++ ) {
-			$cekpsfmcwwwc = "x";
-			$kdnyvjxl     = "totalpages";
-			if ( ( ${$cekpsfmcwwwc} > 0 ) && ( $x <= ${$kdnyvjxl} ) ) {
-				$uiznsssan                                = "x";
-				$GLOBALS["fkomkhb"]                       = "x";
-				$bovrswmula                               = "currentpage";
+		for ( $x = ( $currentpage - $range ); $x < ( ( $currentpage + $range ) + 1 ); $x++ ) {
+			if ( ( $x > 0 ) && ( $x <= $totalpages ) ) {
+				
 				$url["currentpage"] = $x;
-				$pagination .= ( ${$uiznsssan} == ${$bovrswmula} ) ? ${$GLOBALS["fkomkhb"]} : " <a {$optional['page_link_class']} href='$this_page?" . http_build_query( $url ) . "'><u>$x</u></a> ";
+				$pagination .= ( $x == $currentpage ) ? $x : " <a {$optional['page_link_class']} href='$this_page?" . http_build_query( $url ) . "'><u>$x</u></a> ";
 			}
 		}
-		if ( ${$hdwjoegupvqh} + ${$gymlligjmxii} < $totalpages ) {
-			$mlqpixt                                  = "totalpages";
-			$url["currentpage"] = ${$mlqpixt};
-			$GLOBALS["vhqzwchdx"]                     = "url";
-			$pagination .= "... <a {$optional['page_link_class']} href='$this_page?" . http_build_query( ${$GLOBALS["vhqzwchdx"]} ) . "'><u>$totalpages</u></a> ";
+		if ( $currentpage + $range < $totalpages ) {
+			$url["currentpage"] = $totalpages;
+			$pagination .= "... <a {$optional['page_link_class']} href='$this_page?" . http_build_query( $url ) . "'><u>$totalpages</u></a> ";
 		}
-		${$GLOBALS["tfqxnojqxyv"]}["links"] = ( $totalpages > 1 ) ? ${$ietqdithlw} : "";
-		if ( ${$axkmpdehykcf}["size"] > 0 ) {
-			$GLOBALS["fcnjclklqu"]  = "objectIDs";
-			$iccnmjyudf             = "optional";
-			$GLOBALS["vsispxykk"]   = "sql";
-			$esogihlcaoe            = "optional";
-			$xwwykphvhj             = "paginationArray";
-			$gyerhumvwkw            = "sql";
-			$wwlgpl                 = "i";
-			$GLOBALS["voxiqaeqsrd"] = "optional";
-			$qeekolvhlzh            = "optional";
+		$paginationArray["links"] = ( $totalpages > 1 ) ? $pagination : "";
+		if ( $paginationArray["size"] > 0 ) {
 			$sql  = "SELECT $primaryKey FROM $tablename ";
-			$kppnwqtfrv             = "query";
-			${$GLOBALS["vsispxykk"]} .= ( stripos( ${$qeekolvhlzh}["where_condition"], "WHERE" ) === false ) ? "WHERE " . $optional["where_condition"] . " " : $optional["where_condition"] . " ";
-			${$gyerhumvwkw} .= empty( $optional["order_by"] ) ? " ORDER BY $primaryKey DESC " : $optional["order_by"];
-			$GLOBALS["rjsxkgliv"] = "sql";
-			${$GLOBALS["rjsxkgliv"]} .= " LIMIT " . ( $paginationArray["start"] - 1 ) . "," . ${$xwwykphvhj}["size"];
-			$GLOBALS["smgyofybk"]     = "cto";
-			$GLOBALS["fmrtqdr"]       = "objectIDs";
-			${$GLOBALS["fcnjclklqu"]} = $this->dbarray( $sql);
+			$sql .= ( stripos( $optional["where_condition"], "WHERE" ) === false ) ? "WHERE " . $optional["where_condition"] . " " : $optional["where_condition"] . " ";
+			$sql .= empty( $optional["order_by"] ) ? " ORDER BY $primaryKey DESC " : $optional["order_by"];
+			$sql .= " LIMIT " . ( $paginationArray["start"] - 1 ) . "," . $paginationArray["size"];
+			$objectIDs = $this->dbarray( $sql);
 			$ids = array( );
-			$ruurjucw                 = "cto";
-			$eklnrn                   = "ids";
-			$qcksndoojxey             = "query";
-			$gvumkbedy                = "optional";
-			if ( is_array( ${$GLOBALS["fmrtqdr"]} ) ) {
-				$mtsgqhadlxf           = "value";
-				$GLOBALS["dkbsjpekvf"] = "value";
-				$lrsjdt                = "objectIDs";
-				foreach ( ${$lrsjdt} as ${$mtsgqhadlxf} )
-					$ids[] = ${$GLOBALS["dkbsjpekvf"]}[$primaryKey];
+			if ( is_array( $objectIDs ) ) {
+				foreach ( $objectIDs as $value )
+					$ids[] = $value[$primaryKey];
 			}
-			$GLOBALS["ungwhtxp"] = "query";
-			${$eklnrn}           = "'" . implode( "','", $ids ) . "'";
-			$query .= ( stripos( ${$kppnwqtfrv}, "FROM" ) == false ) ? " FROM " . $tablename : "";
-			${$GLOBALS["ungwhtxp"]} .= ( stripos( $query, "WHERE" ) == false ) ? " WHERE " . ${$iccnmjyudf}["where_condition"] . " AND " : " AND ";
-			${$qcksndoojxey} .= "$primaryKey IN ( $ids ) ";
-			$query .= empty( ${$esogihlcaoe}["order_by"] ) ? " ORDER BY $primaryKey DESC " : ${$GLOBALS["voxiqaeqsrd"]}["order_by"];
+			$ids           = "'" . implode( "','", $ids ) . "'";
+			$query .= ( stripos( $query, "FROM" ) == false ) ? " FROM " . $tablename : "";
+			$query .= ( stripos( $query, "WHERE" ) == false ) ? " WHERE " . $optional["where_condition"] . " AND " : " AND ";
+			$query .= "$primaryKey IN ( $ids ) ";
+			$query .= empty( $optional["order_by"] ) ? " ORDER BY $primaryKey DESC " : $optional["order_by"];
 			$tableObject   = $this->dbarray( $query );
 			$n   = 0;
 			$dataTable = "<table class='table'>";
 			$dataTable2 = "";
-			${$ruurjucw}               = count( $tableObject );
-			for ( $i = 0; $i < ${$GLOBALS["smgyofybk"]}; ${$wwlgpl}++ ) {
-				$htvpwkolau             = "optional";
-				$GLOBALS["bvgkakod"]    = "row";
-				$GLOBALS["xydvcnrt"]    = "i";
-				${$GLOBALS["bvgkakod"]} = $tableObject[${$GLOBALS["xydvcnrt"]}];
-				if ( $n == 0 && empty( ${$htvpwkolau}["template"] ) ) {
-					$GLOBALS["hbmxwhfpo"]      = "value";
-					$GLOBALS["rtwyjeniaoee"]   = "th";
-					$GLOBALS["gojbfknqbcx"]    = "th";
-					$ldnjdocxhi                = "dataTable";
-					${$GLOBALS["gojbfknqbcx"]} = array( );
-					foreach ( $row as $key => ${$GLOBALS["hbmxwhfpo"]} )
-						${$GLOBALS["rtwyjeniaoee"]}[] = $key;
-					${$ldnjdocxhi} .= "<tr class='th'><th>" . implode( "</th><th>", $th ) . "</th></tr>";
+			$cto               = count( $tableObject );
+			for ( $i = 0; $i < $cto; $i++ ) {
+				$row = $tableObject[$i];
+				if ( $n == 0 && empty( $optional["template"] ) ) {
+					$th = array( );
+					foreach ( $row as $key => $value )
+						$th[] = $key;
+					$dataTable .= "<tr class='th'><th>" . implode( "</th><th>", $th ) . "</th></tr>";
 					$n += 1;
 				}
 				if ( empty( $optional["template"] ) ) {
-					$ybqgsd                  = "n";
 					$th = array( );
 					foreach ( $row as $value ) {
-						$lcbcwiktu              = "th";
-						$GLOBALS["klleocqhasi"] = "value";
-						$GLOBALS["supkujn"]     = "value";
-						if ( is_numeric( ${$GLOBALS["supkujn"]} ) ) {
-							$GLOBALS["ttedtmgwrx"]      = "th";
-							$GLOBALS["jwnukejp"]        = "value";
-							${$GLOBALS["ttedtmgwrx"]}[] = "<div align='right'>" . number_format( ${$GLOBALS["jwnukejp"]}, 2 ) . "</div>";
+						if ( is_numeric( $value ) ) {
+							$th[] = "<div align='right'>" . number_format( $value, 2 ) . "</div>";
 						} else
-							${$lcbcwiktu}[] = ${$GLOBALS["klleocqhasi"]};
+							$th[] = $value;
 					}
-					if ( ${$ybqgsd} >= 2 ) {
-						$bqbeqnegty = "dataTable";
-						$hznzxnsmmy = "n";
-						${$bqbeqnegty} .= "<tr class='tr2'><td class='cell'>" . implode( "</td><td class='cell'>", $th ) . "</td></tr>";
-						${$hznzxnsmmy} = 0;
+					if ( $n >= 2 ) {
+						
+						$dataTable .= "<tr class='tr2'><td class='cell'>" . implode( "</td><td class='cell'>", $th ) . "</td></tr>";
+						$n = 0;
 					} else
 						$dataTable .= "<tr class='tr1'><td class='cell'>" . implode( "</td><td class='cell'>", $th ) . "</td></tr>";
 					$n += 1;
 				} else {
-					$utbxepo                = "optional";
-					$GLOBALS["olxuxthqbas"] = "dataTable2";
-					$tmp = ${$utbxepo}["template"];
+					$tmp = $optional["template"];
 					foreach ( $row as $key => $value ) {
-						$GLOBALS["qashdshy"]    = "tmp";
-						$tmp = str_replace( "@" . $key . "@", $value, ${$GLOBALS["qashdshy"]} );
+						$tmp = str_replace( "@" . $key . "@", $value, $tmp );
 					}
-					${$GLOBALS["olxuxthqbas"]} .= $tmp;
+					$dataTable .= $tmp;
 				}
 			}
 			$dataTable .= "</table>";
-			if ( !empty( ${$gvumkbedy}["template"] ) )
+			if ( !empty( $optional["template"] ) )
 				$dataTable = $dataTable2;
 		} else
-			${$GLOBALS["tfkxbcyyp"]} = "";
+			$dataTable = "";
 		$grid = array( );
-		$a     = "{$paginationArray['start']} - " . ( ${$lndkmirdn}["start"] + ${$GLOBALS["tbrxmb"]}["size"] - 1 ) . " of " . number_format( ${$GLOBALS["nvixsqenl"]}["total"] - 0 );
+		$a     = "{$paginationArray['start']} - " . ( $paginationArray["start"] + $paginationArray["size"] - 1 ) . " of " . number_format( $paginationArray["total"] - 0 );
 		if ( empty( $optional["search_template"] ) )
 			$grid[] = "<table width=\"100%\" style=\"margin-top:10px;\" ><tr style=\"vertical-align:middle;\">" . "<td>$a</td><td>{$paginationArray['links']}</td><td align='right'>$searchForm</td></tr></table>";
 		else {
-			$GLOBALS["bxeifww"]                       = "optional";
-			$qwqtvdwp                                 = "optional";
-			$GLOBALS["nsjuld"]                        = "optional";
-			$wfgsxhgshqd                              = "optional";
-			$bdorscxb                                 = "paginationArray";
-			$GLOBALS["jmvslsajpj"]                    = "a";
-			${$GLOBALS["bxeifww"]}["search_template"] = str_replace( "@a@", ${$GLOBALS["jmvslsajpj"]}, ${$GLOBALS["nsjuld"]}["search_template"] );
-			${$wfgsxhgshqd}["search_template"]        = str_replace( "@b@", ${$bdorscxb}["links"], ${$qwqtvdwp}["search_template"] );
+			$optional["search_template"] = str_replace( "@a@", $a, $optional["search_template"] );
+			$optional["search_template"]        = str_replace( "@b@", $paginationArray["links"], $optional["search_template"] );
 			$grid[]               = str_replace( "@c@", $searchForm, $optional["search_template"] );
 		}
 		$grid[] = $dataTable;
 		if ( $optional["return"] )
 			return $grid;
-		echo implode( "", ${$khbgsnjhzd} );
+		echo implode( "", $grid );
 	}
+	
+	
+	
+	
 	function cacheInfo( $smsClient, $data )
 	{
-		$GLOBALS["uydocbmfss"]    = "data";
 		$GLOBALS["qoyhpmovhx"]    = "data";
-		${$GLOBALS["uydocbmfss"]} = date( "Y-m-d h:i" ) . ": " . ${$GLOBALS["qoyhpmovhx"]};
+		$data = date( "Y-m-d h:i" ) . ": " . $data;
 		$this->dbquery( "UPDATE #__spcClient SET pendingNotifications = CONCAT(pendingNotifications,'#',$data) WHERE clientID = $smsClient" );
 	}
-	function validateDate( $date, $format = 'YYYY-MM-DD' )
+		
+
+##########################################################
+##		Function to validate date						##
+##########################################################
+function validateDate( $date, $format='YYYY-MM-DD')
+{
+	switch( $format )
 	{
-		$lufzgyotha             = "m";
-		$lqfeewhay              = "date";
-		$GLOBALS["djgqgtvkde"]  = "date";
-		$ferholnd               = "date";
-		$GLOBALS["doqbjjhz"]    = "d";
-		$rvvfsdy                = "date";
-		$jngvndirdu             = "m";
-		$GLOBALS["kikmtzli"]    = "m";
-		$GLOBALS["moioewthsej"] = "d";
-		$wwcpflwms              = "date";
-		$GLOBALS["zeospexjevl"] = "d";
-		$ufmtvekfj              = "date";
-		$GLOBALS["veyhwrj"]     = "d";
-		$lnonmdg                = "y";
-		$mbrviyndbvaw           = "d";
-		$ixrxstjni              = "y";
-		switch ( $format ) {
-			case "YYYY/MM/DD":
-			case "YYYY-MM-DD":
-				list( ${$ixrxstjni}, $m, ${$GLOBALS["doqbjjhz"]} ) = preg_split( "/[-\.\/ ]/", ${$ufmtvekfj} );
-				break;
-			case "YYYY/DD/MM":
-			case "YYYY-DD-MM":
-				list( $y, $d, $m ) = preg_split( "/[-\.\/ ]/", ${$lqfeewhay} );
-				break;
-			case "DD-MM-YYYY":
-			case "DD/MM/YYYY":
-				list( $d, $m, $y ) = preg_split( "/[-\\.\\/ ]/", $date );
-				break;
-			case "MM-DD-YYYY":
-			case "MM/DD/YYYY":
-				list( $m, ${$GLOBALS["zeospexjevl"]}, $y ) = preg_split( "/[-\\.\/ ]/", ${$rvvfsdy} );
-				break;
-			case "YYYYMMDD":
-				$y  = substr( $date, 0, 4 );
-				${$GLOBALS["kikmtzli"]} = substr( ${$wwcpflwms}, 4, 2 );
-				${$mbrviyndbvaw}        = substr( ${$ferholnd}, 6, 2 );
-				break;
-			case "YYYYDDMM":
-				${$lnonmdg}            = substr( $date, 0, 4 );
-				${$GLOBALS["veyhwrj"]} = substr( ${$GLOBALS["djgqgtvkde"]}, 4, 2 );
-				${$jngvndirdu}         = substr( $date, 6, 2 );
-				break;
-			default:
-				throw new Exception( "Invalid Date Format" );
-		}
-		return checkdate( ${$lufzgyotha}, ${$GLOBALS["moioewthsej"]}, $y );
+		case 'YYYY/MM/DD':
+		case 'YYYY-MM-DD':
+		list( $y, $m, $d ) = preg_split( '/[-\.\/ ]/', $date );
+		break;
+
+		case 'YYYY/DD/MM':
+		case 'YYYY-DD-MM':
+		list( $y, $d, $m ) = preg_split( '/[-\.\/ ]/', $date );
+		break;
+
+		case 'DD-MM-YYYY':
+		case 'DD/MM/YYYY':
+		list( $d, $m, $y ) = preg_split( '/[-\.\/ ]/', $date );
+		break;
+
+		case 'MM-DD-YYYY':
+		case 'MM/DD/YYYY':
+		list( $m, $d, $y ) = preg_split( '/[-\.\/ ]/', $date );
+		break;
+
+		case 'YYYYMMDD':
+		$y = substr( $date, 0, 4 );
+		$m = substr( $date, 4, 2 );
+		$d = substr( $date, 6, 2 );
+		break;
+
+		case 'YYYYDDMM':
+		$y = substr( $date, 0, 4 );
+		$d = substr( $date, 4, 2 );
+		$m = substr( $date, 6, 2 );
+		break;
+
+		default:
+		throw new Exception( "Invalid Date Format" );
 	}
+	return checkdate( $m, $d, $y );
+}
 	function clientRedirect( $url )
 	{
-		$GLOBALS["cxokzeink"] = "url";
-		$huaxtixfh            = "url";
-		$lwmynpmnvl           = "r";
-		${$lwmynpmnvl}        = "<meta http-equiv=\"Refresh\" content=\"0;url=" . ${$huaxtixfh} . "\" />";
-		$r .= "<script type=\"text/javascript\">window.location = \"" . ${$GLOBALS["cxokzeink"]} . "\"</script>";
+		$r        = "<meta http-equiv=\"Refresh\" content=\"0;url=" . $url . "\" />";
+		$r .= "<script type=\"text/javascript\">window.location = \"" . $url . "\"</script>";
 		die( $r );
 	}
 	function antiHacking( $string, $length = null, $html = false, $striptags = true )
 	{
-		$gvfacz                    = "string";
-		$GLOBALS["hhcxwql"]        = "length";
-		$gornknftm                 = "length";
-		$qrwvyialqcn               = "length";
-		$nellglcgjq                = "length";
-		$GLOBALS["qsrolzy"]        = "aDisabledAttributes";
-		$GLOBALS["zleexjdcgqq"]    = "allow";
-		$fypusbcbfeo               = "string";
-		$GLOBALS["sypnvpiqjmpa"]   = "aDisabledAttributes";
-		$GLOBALS["pefdnxnej"]      = "string";
-		$GLOBALS["yrgovtdjbab"]    = "string";
-		$GLOBALS["nmmckmsrxdn"]    = "length";
-		${$GLOBALS["nmmckmsrxdn"]} = 0 + ${$qrwvyialqcn};
-		$GLOBALS["bsyrkrdpe"]      = "string";
-		$GLOBALS["lvpfoykn"]       = "string";
-		$egvbvyj                   = "string";
-		$GLOBALS["zxyrcvvcfc"]     = "string";
-		$GLOBALS["iturxhai"]       = "string";
-		$vwphfyjes                 = "string";
+		
+		$length = 0 + $length;
 		if ( !$html )
-			return ( ${$GLOBALS["hhcxwql"]} > 0 ) ? substr( addslashes( trim( preg_replace( "/<[^>]*>/", "", ${$vwphfyjes} ) ) ), 0, $length ) : addslashes( trim( preg_replace( "/<[^>]*>/", "", ${$GLOBALS["pefdnxnej"]} ) ) );
+			return ( $length > 0 ) ? substr( addslashes( trim( preg_replace( "/<[^>]*>/", "", $string ) ) ), 0, $length ) : addslashes( trim( preg_replace( "/<[^>]*>/", "", $string) ) );
 		$allow = "<b><h1><h2><h3><h4><h5><h6><br><br /><hr><hr /><em><strong><a><ul><ol><li><dl><dt><dd><table><tr><th><td><blockquote><address><div><p><span><i><u><s><sup><sub><style><tbody>";
-		$cuzjxdoij                  = "string";
-		${$cuzjxdoij}               = utf8_decode( trim( $string ) );
-		$blkimiubngb                = "string";
-		$GLOBALS["rerfoirxadm"]     = "string";
+		$string               = utf8_decode( trim( $string ) );
 		if ( $striptags )
-			${$GLOBALS["bsyrkrdpe"]} = strip_tags( ${$egvbvyj}, ${$GLOBALS["zleexjdcgqq"]} );
-		$qyihjvfwvvmg               = "string";
-		${$GLOBALS["sypnvpiqjmpa"]} = array(
+			$string = strip_tags( $string, $allow );
+		$aDisabledAttributes = array(
 			"onabort",
 			"onactivate",
 			"onafterprint",
@@ -1810,19 +1622,22 @@ class afrisoftClass
 			"onsubmit",
 			"onunload" 
 		);
-		${$GLOBALS["rerfoirxadm"]}  = str_ireplace( ${$GLOBALS["qsrolzy"]}, "x", $string );
+		$string  = str_ireplace( $aDisabledAttributes, "x", $string );
 		while ( preg_match( "/<(.*)?javascript.*?\(.*?((?>[^()]+)|(?R)).*?\\)?\\)(.*)?>/i", $string ) )
-			${$blkimiubngb} = preg_replace( "/<(.*)?javascript.*?\\(.*?((?>[^()]+)|(?R)).*?\)?\\)(.*)?>/i", "<\$1\$3\$4\$5>", ${$gvfacz} );
+			$string = preg_replace( "/<(.*)?javascript.*?\\(.*?((?>[^()]+)|(?R)).*?\)?\\)(.*)?>/i", "<\$1\$3\$4\$5>", $string );
 		$string = preg_replace( "/:expression\\(.*?((?>[^(.*?)]+)|(?R)).*?\)\)/i", "", $string );
 		while ( preg_match( "/<(.*)?:expr.*?\(.*?((?>[^()]+)|(?R)).*?\\)?\)(.*)?>/i", $string ) )
-			${$GLOBALS["yrgovtdjbab"]} = preg_replace( "/<(.*)?:expr.*?\\(.*?((?>[^()]+)|(?R)).*?\\)?\\)(.*)?>/i", "<\$1\$3$4\$5>", ${$GLOBALS["lvpfoykn"]} );
-		$GLOBALS["eiyfgyyc"] = "string";
-		${$fypusbcbfeo}      = str_replace( "#", "#", htmlentities( ${$GLOBALS["iturxhai"]} ) );
-		${$qyihjvfwvvmg}     = addslashes( str_replace( "%", "%", $string ) );
-		if ( ${$nellglcgjq} > 0 )
-			$string = substr( ${$GLOBALS["zxyrcvvcfc"]}, 0, ${$gornknftm} );
-		return ${$GLOBALS["eiyfgyyc"]};
+			$string = preg_replace( "/<(.*)?:expr.*?\\(.*?((?>[^()]+)|(?R)).*?\\)?\\)(.*)?>/i", "<\$1\$3$4\$5>", $string );
+	
+		$string      = str_replace( "#", "#", htmlentities( $string ) );
+		$string     = addslashes( str_replace( "%", "%", $string ) );
+		if ( $length > 0 )
+			$string = substr( $string, 0, $length );
+		return $string;
 	}
+	
+	
+	
 	function uuid( )
 	{
 		return sprintf( "%04x%04x-%04x-%04x-%04x-%04x%04x%04x", mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0x0fff ) | 0x4000, mt_rand( 0, 0x3fff ) | 0x8000, mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ) );
@@ -1831,32 +1646,27 @@ class afrisoftClass
 	{
 		if ( !is_numeric( $id ) || $id < 1 )
 			return false;
-		$tysubjkpr             = "message";
 		$query = "SELECT * FROM #__spcClient LEFT JOIN #__users ON clientID=id WHERE clientID = '$id'";
-		$GLOBALS["xzcixemp"]   = "me";
 		$me = $this->dbrow( $query );
 		if ( empty( $me["id"] ) )
 			return false;
-		if ( ${$GLOBALS["xzcixemp"]}["notifyMe"] == 1 || $me["notifyMe"] == 3 )
+		if ( $me["notifyMe"] == 1 || $me["notifyMe"] == 3 )
 			$sms = $this->sendSMS( $this->setting( "smsSender" ), $me["GSM"], str_ireplace( array(
 				"<br>",
 				"<br />",
 				"<br/>" 
-			), "\n", ${$tysubjkpr} ), $id );
-		$GLOBALS["wjgvwxfi"] = "sms";
+			), "\n", $message ), $id );
 		if ( $me["notifyMe"] == 2 || $me["notifyMe"] == 3 ) {
-			$GLOBALS["rhrlktwxycp"] = "mailer";
-			${$GLOBALS["rhrlktwxycp"]} =& JFactory::getMailer();
+			
+			$mailer =& JFactory::getMailer();
 			$mailer->setSender( $this->setting( "emailSender" ) );
-			$GLOBALS["mammfwfiyoji"] = "send";
 			$mailer->addRecipient( $me["email"] );
 			$mailer->setSubject( "Notification from " . $this->setting( "domain" ) );
-			$weftmidb = "message";
 			$mailer->isHTML( true );
-			$mailer->setBody( nl2br( ${$weftmidb} ) );
-			${$GLOBALS["mammfwfiyoji"]} =& $mailer->Send();
+			$mailer->setBody( nl2br( $message ) );
+			$send =& $mailer->Send();
 		}
-		if ( ${$GLOBALS["wjgvwxfi"]} || $send )
+		if ( $sms|| $send )
 			return true;
 		else
 			return false;
@@ -1864,33 +1674,24 @@ class afrisoftClass
 	function preventSessionHijack( )
 	{
 		$ip     = $this->getIpAddress();
-		$GLOBALS["pogwbxuomc"]    = "ip2";
-		$GLOBALS["shnmkriorj"]    = "agent";
-		$ibrmznaokj               = "agent1";
 		$agent   = $this->GetBrowser();
-		$kqhnsi                   = "ip1";
-		$eruerxegagfv             = "agent1";
-		${$kqhnsi}                = md5( "host" . $ip );
-		$GLOBALS["hmxmbbhzhvk"]   = "ip1";
-		${$ibrmznaokj}            = md5( "useragent" . ${$GLOBALS["shnmkriorj"]} );
-		${$GLOBALS["pogwbxuomc"]} = md5( "getIpAddress" . $ip );
+		$ip1                = md5( "host" . $ip );
+		$agent1            = md5( "useragent" . $agent );
+		$ip2 = md5( "getIpAddress" . $ip );
 		$dataTable2   = md5( "HTTP_USER_AGENT" . $agent );
-		if ( !empty( $_SESSION[${$eruerxegagfv}] ) && !empty( $_SESSION[${$GLOBALS["hmxmbbhzhvk"]}] ) ) {
+		if ( !empty( $_SESSION[$agent1] ) && !empty( $_SESSION[$ip1] ) ) {
 			$dwfrtuh               = "agent2";
-			$GLOBALS["yfnsojafb"]  = "ip1";
 			$GLOBALS["fecvcydkku"] = "agent1";
-			if ( $_SESSION[${$GLOBALS["yfnsojafb"]}] != $ip2 || $_SESSION[${$GLOBALS["fecvcydkku"]}] != ${$dwfrtuh} ) {
-				$GLOBALS["xqdmmfdfg"] = "ip1";
+			if ( $_SESSION[$ip1] != $ip2 || $_SESSION[$agent1] != $agent2 ) {
 				unset( $_SESSION["email"] );
 				unset( $_SESSION[$agent1] );
-				unset( $_SESSION[${$GLOBALS["xqdmmfdfg"]}] );
+				unset( $_SESSION[$ip1] );
 				session_regenerate_id( true );
 			}
 		} else {
 			unset( $_SESSION["email"] );
-			$yffctjimvrm = "agent2";
 			session_regenerate_id( true );
-			$_SESSION[$agent1]    = ${$yffctjimvrm};
+			$_SESSION[$agent1]    = $agent2;
 			$_SESSION[$ipl] = $ip2;
 		}
 	}
