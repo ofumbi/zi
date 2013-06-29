@@ -42,21 +42,25 @@ class afrisoftClass
 	}
 	function sendSMS( $sender, $recipientList, $message, $smsClient, $channel = "", $optional = array( ) )
 	{
-		 $contentFilter = $this->setting( "contentFilter" );
+		$contentFilter = $this->setting( "contentFilter" );
+	
 		if ( !empty( $contentFilter ) ) {
-			
 			
 			$contentFilter = explode( ",", $contentFilter );
 			$contentFilterReplacement  = $this->setting( "contentFilterReplacement" );
 			foreach ( $contentFilter as $filterGroup ) {
+				
 				$filters = explode( " ", $filterGroup );
 				$no_of_filter_words      = count( $filters );
+				
 				$badwords     = 0;
 				foreach ( $filters as $filter ) {
+					
 					if ( stripos( $message, $filter ) !== false && !empty( $filter ) )
 						$badwords++;
 				}
-				if ( $no_of_filter_words== $badwords ) {
+				if ( $no_of_filter_words == $badwords ) {
+					
 					if ( !empty( $contentFilterReplacement ) )
 						$message = $contentFilterReplacement;
 					else
@@ -66,22 +70,23 @@ class afrisoftClass
 			}
 		}
 		
+		$channel  = ( $this->isAPI ) ? $channel: "Website";
 		
-
-		$channel   = ( $this->isAPI ) ? $channel : "Website";
-		$channel              = ( empty( $channel ) ) ? "API" : $channel;
-		$msgID   = isset( $apiDlvrID["msgID"] ) ? $optional["msgID"] : 0;
-		$apiDlvrID     = isset( $optional["apiDlvrID"] ) ? $optional["apiDlvrID"] : "";
+		$channel              = ( empty( $channel) ) ? "API" : $channel;
+		$msgID   = isset( $optional["msgID"] ) ? $optional["msgID"] : 0;
+		$apiDlvrID    = isset( $optional["apiDlvrID"] ) ? $optional["apiDlvrID"] : "";
 		$dlvrID = $this->uuid() . time();
 		$wholeMessageId  = array( );
 		$scheduledMsgQuery2    = "UPDATE #__spcMessages SET msgStatus = 'Failed' WHERE msgID = $msgID AND msgStatus like 'processing' AND schedule IS NOT NULL AND schedule < NOW()";
 		$this->setting();
 		if ( empty( $recipientList ) ) {
+			
 			if ( $msgID > 0 )
 				$this->dbquery( $scheduledMsgQuery2 );
 			return "2912";
 		}
 		if ( empty( $message ) ) {
+			
 			if ( $msgID > 0 )
 				$this->dbquery( $scheduledMsgQuery2 );
 			return "2913";
@@ -92,35 +97,30 @@ class afrisoftClass
 				$this->dbquery( $scheduledMsgQuery2 );
 			return "2914";
 		}
+		
 		$max_msg_allowed = $this->setting( "max_msg_allowed" ) * $this->setting( "smsLength2" );
 		if ( !empty( $max_msg_allowed ) && $max_msg_allowed > $this->setting( "smsLength" ) && strlen( $message ) > $max_msg_allowed ) {
-		
+			
+			$max_msg_allowed             = $max_msg_allowed;
 			$s = substr( $message, 0, $max_msg_allowed );
 			$s2              = substr( $message, $max_msg_allowed, 1 );
-			if ( $s2 != " " ) {
-	
-				
-				$pos          = strrpos( $s, " " );
-				$s        = substr( $s, 0, $pos );
-			}
-			$s3     = substr( $message, strlen( $s ) );
 			
-			$result               = $this->sendSMS( $sender, $recipientList, $s, $smsClient, $channel, $msgID );
+			if ( $s2 != " " ) {
+				$pos  = strrpos( $s, " " );
+				$s  = substr( $s, 0, $pos );
+			}
+			$s3 = substr( $message, strlen( $s ) );
+			$result  = $this->sendSMS( $sender, $recipientList, $s, $smsClient, $channel, $msgID );
 			$result2 = $this->sendSMS( $sender, $recipientList, $s3, $smsClient, $channel, $msgID );
 			return $result . " | " . $result2;
 		}
-		
-		
 		$blockSender = $this->setting( "blockSender" );
 		if ( !empty( $blockSender ) ) {
-			
-			$blockSender     = strtoupper( $blockSender );
-			
+			$blockSender = strtoupper( $blockSender );
 			$blockSender = str_replace( explode( ",", " ,-,_,." ), "", $blockSender );
-			$s              = explode( ",", $blockSender );
-			$s2     = str_replace( explode( ",", " ,-,_,." ), "", strtoupper( $sender ) );
+			$s = explode( ",", $blockSender );
+			$s2 = str_replace( explode( ",", " ,-,_,." ), "", strtoupper( $sender ) );
 			if ( in_array( $s2, $s ) ) {
-				
 				$rpl = $this->setting( "blockSenderReplacement" );
 				if ( !empty( $rpl ) )
 					$sender = $rpl;
@@ -147,19 +147,18 @@ class afrisoftClass
 			$tempSmsApis = $this->dbarray( $query );
 			$smsApis   = array( );
 			foreach ( $tempSmsApis as $value ) {
-		
+				
 				$smsApis[strtolower( $value["apiName"] )] = $value;
 			}
 			$tempSmsRoutes = explode( "\n", $tempSmsRoutes );
 			$smsRoutes = array( );
 			foreach ( $tempSmsRoutes as $value ) {
 				
-				$value  = explode( "=", $value );
+				$value                                      = explode( "=", $value );
 				$smsRoutes[trim( $value[0] )] = $smsApis[strtolower( trim( $value[1] ) )];
 			}
 		}
 		$useName  = $this->settings["useName"];
-		
 		
 		if ( $useName == 1 ) {
 			
@@ -174,102 +173,128 @@ class afrisoftClass
 		$priceList     = $this->countryPrices( "" );
 		$recipientList    = $this->correctCommas( $recipientList );
 		$recipientList               = $this->alterPhone( $recipientList );
-		$recipient_s    = explode( ",", $recipientList );
-		$recipientsz  = array_unique( $recipient_s);
+		$recipient_s     = explode( ",", $recipientList );
+		$recipientsz  = array_unique( $recipient_s );
 		$outputDetails     = array( );
 		$cntrep = count( $recipientsz );
 		$cntrep2       = count( $recipient_s );
-		$hnsthwtmbl                 = "credit";
 		$recipients = $this->filterNos( $recipientsz, 1 );
-		$cntrep3     = count( $recipients );
+		$cntrep3      = count( $recipients );
 		if ( !$this->isAPI ) {
+			
 			if ( $cntrep < $cntrep2 )
 				$outputDetails[] = ( $cntrep2 - $cntrep ) . " repeated numbers were removed";
-			if ( $cntrep3< $cntrep )
-				$outputDetails[] = ( $cntrep - $cntrep3) . " invalid numbers were removed";
+			if ( $cntrep3 < $cntrep )
+				$outputDetails[] = ( $cntrep - $cntrep3 ) . " invalid numbers were removed";
 		}
 		
 		$availableCredit         = (float) $this->member["Units"];
 		if ( $availableCredit <= 0 )
 			return "2906";
-		          ////////// Check if country code has not been blocked
-		$blockCountry = $this->settingsArray['blockCountry'];
-                if(!empty($blockCountry)){
-                    $blockCountry = $this -> correctCommas($blockCountry);
-                    $s = explode(",",$blockCountry);
-                    foreach($s as $value) {
-                        $s_length = strlen($value);
-                        foreach($recipients as &$dest){
-                            if(substr($dest,0,$s_length) == $value && $s_length > 0 && !empty($dest)) $dest = "";
-                        }
-                    }
-                }
-		unset($s_length);unset($s);
-                ////////// End check if country code has not been blocked
+		$blockCountry = trim( $this->member["specialBlockCountry"] );
+		
+		$blockCountry   = empty( $blockCountry ) ? trim( $this->settings["blockCountry"] ) : $blockCountry;
+		if ( !empty( $blockCountry ) ) {
+			
+			$blockCountry = $this->correctCommas( $blockCountry );
+			
+			$s                = explode( ",", $blockCountry );
+			foreach ( $s as $value ) {
 				
-				
+				$s_length = strlen( $value );
+				foreach ( $recipients as &$dest ) {
+					
+					if ( substr( $dest, 0, $s_length ) == $value && $s_length > 0 && !empty( $dest ) )
+						$dest = "";
+				}
+			}
+		}
+		unset( $s_length );
+		unset( $s );
 		$oldBalance = $availableCredit;
-		${$hnsthwtmbl}            = 0.00;
+		$credit            = 0.00;
 		$destination              = array( );
 		$good_recipients = array( );
 		$routedRecipients  = array( );
 		$unsent = array( );
 		$rand   = md5( $sender . implode( ",", $recipients ) . $message );
 		$countPriceList = count( $priceList );
-		
-		for($i=0; $i<count($recipients); $i++){
-			if ($availableCredit <= 0) return "2906";//break;
-			$unitcost=1;
-			for($j=0; $j<count($priceList); $j++){
-				$len = strlen($priceList[$j][0]);
-				if(substr($recipients[$i],0,$len) == $priceList[$j][0] && $len > 0 && !empty($priceList[$j][0])){
-					$unitcost=$priceList[$j][1];
+		for ( $i = 0; $i < count( $recipients ); $i++ ) {
+			if ( $availableCredit <= 0 )
+				return "2906";
+
+			$unitcost = 1.00;
+			
+			
+			for ( $j = 0; $j < $countPriceList; $j++ ) {
+				
+				$len = strlen( $priceList[$j][0] );
+				
+				if ( substr( $recipients[$i], 0, $len ) == $priceList[$j][0] && $len > 0 ) {
+					
+					
+					$unitcost         = $priceList[$j][1] - 0;
 					break;
 				}
 			}
 			
 			if ( $availableCredit < $unitcost )
-				return "2906";///BREAK
+				return "2906";
 			
-			if ($useName){
-				$r_name = $this->getName($id,$recipients[$i]);
-				$message = str_replace("@@name@@",$r_name,$message);
-				$msgLength = strlen(str_replace("\r\n","  ",$message));
+			if ( $useName ) {
+				
+				$r_name = $this->getName( $id, $recipients[$i] );
+				$message    = str_replace( "@@name@@", $r_name, $message );
+				$msgLength  = strlen( str_replace( "\r\n", "  ", $message ) );
 			}
 			$requiredCredit = ( $msgLength <= $this->settings["smsLength"] ) ? $this->mceil( $msgLength / $this->settings["smsLength"] ) * $unitcost : $this->mceil( $msgLength / $this->settings["smsLength2"] ) * $unitcost;
 			if ( $availableCredit < $requiredCredit )
-				return "2906";///BREAK
-				
-		//SMS Routing if no special api is set
-			$api_x = $api;
+				return "2906";
+			$api_x            = $api;
 			$useRoute = false;
-			if(!empty($smsRoutes)){
-				foreach($smsRoutes as $key => $value){
-					$len = strlen($key);
-					if(substr($recipients[$i],0,$len) == $key && $len > 0 && !empty($value)){
-						if (empty($smsRoutes[$key]['recipients']))$smsRoutes[$key]['recipients'] = "";
-						$smsRoutes[$key]['recipients'] = $smsRoutes[$key]['recipients'] . $recipients[$i].",";
-						$api_x = $smsRoutes[$key];
-						$useRoute = true;
+			if ( !empty( $smsRoutes ) ) {
+				
+				foreach ( $smsRoutes as $key => $value ) {
+					$len = strlen( $key );
+					
+					if ( substr( $recipients[$i], 0, $len ) == $key && $len > 0 && !empty( $value ) ) {
+						if ( empty( $smsRoutes[$key]["recipients"] ) )
+							$smsRoutes[$key]["recipients"] = "";
+						$smsRoutes[$key]["recipients"] = $smsRoutes[$key]["recipients"] . $recipients[$i] . ",";
+						
+						$api_x                                           = $smsRoutes[$key];
+						$useRoute                                            = true;
 						break;
 					}
 				}
 			}
-			
-			if (!$useName && !$useRoute) $good_recipients[] = $recipients[$i];//store for bulk api;
-			
-			
+			if ( !$useName && !$useRoute )
+				$good_recipients[] = $recipients[$i];
 			if ( $api["category"] == 2 ) {
 				$dlvrID     = "s" . time() . mt_rand( 0, 999 );
-				$searchKeys= array("@@sender@@","@@message@@","@@recipient@@","@@msgid@@" );
-				$replaceKeys = array(urlencode( $sender ),urlencode( $message ),urlencode( $recipients[$i] ),urlencode( $dlvrID ));
+				$searchKeys             = array(
+					"@@sender@@",
+					"@@message@@",
+					"@@recipient@@",
+					"@@msgid@@" 
+				);
+				$replaceKeys              = array(
+					urlencode( $sender ),
+					urlencode( $message ),
+					urlencode( $recipients[$i] ),
+					urlencode( $dlvrID ) 
+				);
 				
 				$smsGateway = str_replace( $searchKeys, $replaceKeys, $api_x["apiData"] );
 				$response    = $this->URLRequest( $smsGateway, $api_x["protocol"] );
 				if ( !empty( $api_x["fnMsgID"] ) ) {
+					
 					$nuFnName  = "f" . time();
+					
 					$fnMsgID = false;
+					
 					$apifn   = str_replace( " MsgID", " " . $nuFnName, $api_x["fnMsgID"] );
+					
 					@eval( $apifn );
 					if ( function_exists( $nuFnName ) )
 						$fnMsgID = $nuFnName( $response );
@@ -278,7 +303,9 @@ class afrisoftClass
 					$wholeMessageId[] = $dlvrID;
 				if ( !$this->isAPI )
 					echo " .";
+				
 				$confirmType = "x" . $api_x["confirmType"];
+				
 				switch ( $confirmType ) {
 					case "x1":
 						$sent = ( stripos( $response, $api_x["apiResponse"] ) !== false ) ? true : false;
@@ -306,8 +333,8 @@ class afrisoftClass
 						$tok = strtok( $response, " ,.\n\t" );
 						while ( $tok !== false ) {
 							
-							
 							if ( is_numeric( $tok ) ) {
+							
 								$sent = ( $tok > $api_x["apiResponse"] ) ? true : false;
 								break;
 							}
@@ -331,7 +358,7 @@ class afrisoftClass
 						while ( $tok !== false ) {
 							if ( is_numeric( $tok ) ) {
 								
-								$sent= ( $tok > $api_x["apiResponse"] ) ? true : $sent;
+								$sent = ( $tok > $api_x["apiResponse"] ) ? true : $sent;
 							}
 							$tok = strtok( " ,.\n\t" );
 						}
@@ -342,7 +369,7 @@ class afrisoftClass
 						while ( $tok !== false ) {
 							if ( is_numeric( $tok ) ) {
 								
-								$sent = ( $tok < $api_x) ? true : $sent;
+								$sent = ( $tok < $api_x["apiResponse"] ) ? true : $sent;
 							}
 							$tok = strtok( " ,.\n\t" );
 						}
@@ -355,24 +382,26 @@ class afrisoftClass
 						break;
 				}
 				if ( $sent != false ) {
+					
 					$credit += $requiredCredit;
 					$availableCredit -= $requiredCredit;
-					$this->dbquery("UPDATE#__spcClient SET Units = Units - ".$requiredCredit." WHERE clientID = ".$smsClient);
-					$saveMsgz = "INSERT INTO#__spcMessages(msgClientID,senderID,recipients,message,delivered,msgStatus,channel,unitsUsed) VALUES 
-					($smsClient,'".addslashes($sender)."','".$recipients[$i]."','".addslashes($message)."', NOW(),'Sent','".$channel."',".$requiredCredit.")";
-					if($msgID > 0)$saveMsgz="UPDATE#__spcMessages SET msgStatus = 'Sent', delivered=NOW(), unitsUsed = unitsUsed + $requiredCredit WHERE msgID = $msgID";
-                    $this->dbquery($saveMsgz);
+					$this->dbquery( "UPDATE #__spcClient SET Units = Units - $requiredCredit WHERE clientID = " . $smsClient );
+					$saveMsgz = "INSERT INTO #__spcMessages(msgClientID,senderID,recipients,message,delivered,msgStatus,channel,unitsUsed,apiDlvrID,dlvrID) VALUES \n\t\t\t\t\t($smsClient,'" . addslashes( $sender ) . "','{$recipients[$i]}','" . addslashes( $message ) . "', NOW(),'Sent','$channel','$requiredCredit','$apiDlvrID','#" . implode( "#", $wholeMessageId ) . "#')";
+					if ( $msgID > 0 )
+						$saveMsgz = "UPDATE #__spcMessages SET msgStatus = 'Sent', delivered=NOW(),apiDlvrID='$apiDlvrID',dlvrID='#" . implode( "#", $wholeMessageId ) . "#', unitsUsed = unitsUsed + '$requiredCredit' WHERE msgID = $msgID";
+					$this->dbquery( $saveMsgz );
+					$wholeMessageId    = array( );
 					$good_recipients[] = $recipients[$i];
 				} else {
 					$unsent[] = $recipients[$i];
 				}
 			} else {
+					
 				$credit += $requiredCredit;
 				$availableCredit -= $requiredCredit;
 			}
 		}
 		if ( $api["category"] == 1 ) {
-			
 			$numbs    = array_chunk( $good_recipients, 50 );
 			$sent             = false;
 			$units_deducted = false;
@@ -386,25 +415,31 @@ class afrisoftClass
 					"@@recipient@@",
 					"@@msgid@@" 
 				);
+				
 				$replaceKeys     = array(
 					urlencode( $sender ),
 					urlencode( $message ),
 					urlencode( implode( ",", $numb ) ),
-					urlencode( $dlvrID) 
+					urlencode( $dlvrID ) 
 				);
+				
 				$smsGateway = str_replace( $searchKeys, $replaceKeys, $api["apiData"] );
 				$response    = $this->URLRequest( $smsGateway, $api["protocol"] );
 				
 				if ( !empty( $api["fnMsgID"] ) ) {
-					$nuFnName  = "f" . time();
-					$fnMsgID = false;
-					$apifn   = str_replace( " MsgID", " " . $nuFnName, $api_x["fnMsgID"] );
+					
+					$nuFnName = "f" . time();
+					
+					$fnMsgID               = false;
+					$apifn           = str_replace( " MsgID", " " . $nuFnName, $api["fnMsgID"] );
+					
 					@eval( $apifn );
 					if ( function_exists( $nuFnName ) )
 						$fnMsgID = $nuFnName( $response );
 					$wholeMessageId[] = ( $fnMsgID == false ) ? $dlvrID : str_replace( ",", "#", $fnMsgID );
 				} else
 					$wholeMessageId[] = $dlvrID;
+				
 				$confirmType         = "x" . $api["confirmType"];
 				switch ( $confirmType ) {
 					case "x1":
@@ -419,7 +454,7 @@ class afrisoftClass
 						break;
 					case "x4":
 						$response = (int) $response;
-						$sent               = $sent = ( $response < $response["apiResponse"] ) ? true : false;
+						$sent               = $sent = ( $response < $api["apiResponse"] ) ? true : false;
 						break;
 					case "x5":
 						$sent = ( stripos( $response, $api["apiResponse"] ) === 0 ) ? true : false;
@@ -444,6 +479,7 @@ class afrisoftClass
 						$tok = strtok( $response, " ,.\n\t" );
 						while ( $tok !== false ) {
 							if ( is_numeric( $tok ) ) {
+								
 								$sent = ( $tok < $api["apiResponse"] ) ? true : false;
 								break;
 							}
@@ -465,7 +501,9 @@ class afrisoftClass
 						$sent                 = false;
 						$tok = strtok( $response, " ,.\n\t" );
 						while ( $tok !== false ) {
+							
 							if ( is_numeric( $tok ) ) {
+
 								$sent  = ( $tok < $api["apiResponse"] ) ? true : $sent;
 							}
 							$tok = strtok( " ,.\n\t" );
@@ -478,140 +516,166 @@ class afrisoftClass
 						$sent = ( stripos( $response, $api["apiResponse"] ) !== false ) ? true : false;
 						break;
 				}
-				if ( $sent != false && $units_deducted == false ) { 
-					$saveMsgz = "INSERT INTO#__spcMessages(msgClientID,senderID,recipients,message,delivered,msgStatus,channel,unitsUsed) VALUES 
-					($smsClient,'".addslashes($sender)."','".addslashes(implode(",",$recipients))."','".addslashes($message)."', NOW(),'Sent','".$channel."',".$credit.")";
-					if($msgID > 0)$saveMsgz="UPDATE#__spcMessages SET msgStatus = 'Sent', delivered=NOW(), unitsUsed = $credit WHERE msgID = $msgID AND msgStatus like 'processing' AND schedule IS NOT NULL AND schedule < NOW()";
-                                        $this->dbquery($saveMsgz);
-					$this->dbquery("UPDATE#__spcClient SET Units = Units - ".$credit." WHERE clientID = ".$smsClient);
+				if ( $sent != false && $units_deducted == false ) {
+					
+					$saveMsgz = "INSERT INTO #__spcMessages(msgClientID,senderID,recipients,message,delivered,msgStatus,channel,unitsUsed,apiDlvrID,dlvrID) VALUES ($smsClient,'" . addslashes( $sender ) . "','" . addslashes( implode( ",", $recipients ) ) . "','" . addslashes( $message ) . "', NOW(),'Sent','$channel','$credit','$apiDlvrID','#" . implode( "#", $wholeMessageId ) . "#')";
+					if ( $msgID > 0 )
+						$saveMsgz = "UPDATE #__spcMessages SET msgStatus = 'Sent', delivered=NOW(), unitsUsed = '$credit',apiDlvrID='$apiDlvrID',dlvrID='#" . implode( "#", $wholeMessageId ) . "#' WHERE msgID = $msgID AND msgStatus = 'processing' AND schedule IS NOT NULL AND schedule < NOW()";
+					$this->dbquery( $saveMsgz );
+					$this->dbquery( "UPDATE #__spcClient SET Units = Units - " . $credit . " WHERE clientID = " . $smsClient );
+					$wholeMessageId  = array( );
 					$units_deducted = true;
 				}
 			}
-			
-			
-			#########################################
-			##  Routing if no special api is set   ##
-			#########################################
 			if ( !empty( $smsRoutes ) ) {
 				foreach ( $smsRoutes as $smsRoute ) {
+					
 					$routedNos = explode( ",", $smsRoute["recipients"] );
 					array_pop( $routedNos );
 					$numbs = array_chunk( $routedNos, 50 );
-					$api = $smsRoute;		
+					$api_x    = $smsRoute;
+					
 					foreach ( $numbs as $numb ) {
-				if ( !$this->isAPI )echo " .";
-				$dlvrID = "y" . time() . mt_rand( 0, 199 );
-				$searchKeys = array("@@sender@@","@@message@@","@@recipient@@","@@msgid@@");
-				$replaceKeys = array(urlencode( $sender ),urlencode( $message ),urlencode( implode( ",", $numb ) ),urlencode( $dlvrID));
-				$smsGateway = str_replace( $searchKeys, $replaceKeys, $api["apiData"] );
-				$response    = $this->URLRequest( $smsGateway, $api["protocol"] );
-			
-				if ( !empty( $api["fnMsgID"] ) ) {
-					$nuFnName  = "f" . time();
-					$fnMsgID = false;
-					$apifn   = str_replace( " MsgID", " " . $nuFnName, $api_x["fnMsgID"] );
-					@eval( $apifn );
-					if ( function_exists( $nuFnName ) )
-						$fnMsgID = $nuFnName( $response );
-					$wholeMessageId[] = ( $fnMsgID == false ) ? $dlvrID : str_replace( ",", "#", $fnMsgID );
-				} else
-					$wholeMessageId[] = $dlvrID;
-				$confirmType         = "x" . $api["confirmType"];
-				switch ( $confirmType ) {
-					case "x1":
-						$sent = ( stripos( $response, $api["apiResponse"] ) !== false ) ? true : false;
-						break;
-					case "x2":
-						$sent = ( stripos( $response, $api["apiResponse"] ) === false ) ? true : false;
-						break;
-					case "x3":
-						$response    = (int) $response;
-						$sent = ( $response > $api["apiResponse"] ) ? true : false;
-						break;
-					case "x4":
-						$response = (int) $response;
-						$sent               = $sent = ( $response < $response["apiResponse"] ) ? true : false;
-						break;
-					case "x5":
-						$sent = ( stripos( $response, $api["apiResponse"] ) === 0 ) ? true : false;
-						break;
-					case "x6":
-						$pos      = strripos( $response, $api["apiResponse"] );
-						$sent = ( $pos !== false && $pos == ( strlen( $response ) - strlen( $api["apiResponse"] ) ) ) ? true : false;
-						break;
-					case "x7":
-						$sent               = false;
-						$tok = strtok( $response, " ,.\n\t" );
-						while ( $tok !== false ) {
-							if ( is_numeric( $tok ) ) {
-								$sent = ( $tok > $api["apiResponse"] ) ? true : false;
+						
+						if ( !$this->isAPI )
+							echo " .";
+						$dlvrID     = "d" . time() . mt_rand( 0, 199 );
+						
+						$searchKeys    = array(
+							"@@sender@@",
+							"@@message@@",
+							"@@recipient@@",
+							"@@msgid@@" 
+						);
+						$replaceKeys     = array(
+							urlencode( $sender ),
+							urlencode( $message ),
+							urlencode( implode( ",", $numb ) ),
+							urlencode( $dlvrID ) 
+						);
+						$smsGateway = str_replace( $searchKeys, $replaceKeys, $api_x["apiData"] );
+						
+						$response    = $this->URLRequest( $smsGateway, $api_x["protocol"] );
+						
+						if ( !empty( $api_x["fnMsgID"] ) ) {
+							
+							$nuFnName    = "f" . time();
+							$fnMsgID = false;
+							$apifn     = str_replace( " MsgID", " " . $nuFnName, $api_x["fnMsgID"] );
+							
+							@eval( $apifn );
+							if ( function_exists( $nuFnName ) )
+								$fnMsgID = $nuFnName( $response );
+							$wholeMessageId[] = ( $fnMsgID == false ) ? $dlvrID : str_replace( ",", "#", $fnMsgID );
+						} else
+							$wholeMessageId[] = $dlvrID;
+						
+						$confirmType = "x" . $api_x["confirmType"];
+						switch ( $confirmType ) {
+							case "x1":
+								$sent = ( stripos( $response, $api_x["apiResponse"] ) !== false ) ? true : false;
 								break;
-							}
-							$tok = strtok( " ,.\n\t" );
-						}
-						break;
-					case "x8":
-						$sent  = false;
-						$tok = strtok( $response, " ,.\n\t" );
-						while ( $tok !== false ) {
-							if ( is_numeric( $tok ) ) {
-								$sent = ( $tok < $api["apiResponse"] ) ? true : false;
+							case "x2":
+								$sent = ( stripos( $response, $api_x["apiResponse"] ) === false ) ? true : false;
 								break;
-							}
-							$tok = strtok( " ,.\n\t" );
+							case "x3":
+								$response     = (int) $response;
+								$sent = ( $response > $api_x["apiResponse"] ) ? true : false;
+								break;
+							case "x4":
+								$response    = (int) $response;
+								$sent = $sent = ( $response < $api_x["apiResponse"] ) ? true : false;
+								break;
+							case "x5":
+								$sent = ( stripos( $response, $api_x["apiResponse"] ) === 0 ) ? true : false;
+								break;
+							case "x6":
+								$pos    = strripos( $response, $api_x["apiResponse"] );
+								$sent = ( $pos !== false && $pos == ( strlen( $response ) - strlen( $api_x["apiResponse"] ) ) ) ? true : false;
+								break;
+							case "x7":
+								$sent                = false;
+								$tok = strtok( $response, " ,.\n\t" );
+								while ( $tok !== false ) {
+									
+									if ( is_numeric( $tok ) ) {
+										
+										$sent = ( $tok > $api_x["apiResponse"] ) ? true : false;
+										break;
+									}
+									$tok = strtok( " ,.\n\t" );
+								}
+								break;
+							case "x8":
+								$sent = false;
+								$tok            = strtok( $response, " ,.\n\t" );
+								while ( $tok !== false ) {
+									
+									if ( is_numeric( $tok ) ) {
+										
+										$sent = ( $tok < $api_x["apiResponse"] ) ? true : false;
+										break;
+									}
+									$tok = strtok( " ,.\n\t" );
+								}
+								break;
+							case "x9":
+								$sent  = false;
+								$tok = strtok( $response, " ,.\n\t" );
+								while ( $tok !== false ) {
+									if ( is_numeric( $tok ) ) {
+										
+										$sent          = ( $tok > $api_x["apiResponse"] ) ? true : $sent;
+									}
+									$tok = strtok( " ,.\n\t" );
+								}
+								break;
+							case "x10":
+								$sent  = false;
+								$tok = strtok( $response, " ,.\n\t" );
+								while ( $tok !== false ) {
+									if ( is_numeric( $tok ) ) {
+										
+										$sent = ( $tok < $api_x["apiResponse"] ) ? true : $sent;
+									}
+									$tok = strtok( " ,.\n\t" );
+								}
+								break;
+							case "x11":
+								$sent = ( preg_match( $api_x["apiResponse"], $response ) ) ? true : false;
+								break;
+							default:
+								$sent = ( stripos( $response, $api_x["apiResponse"] ) !== false ) ? true : false;
+								break;
 						}
-						break;
-					case "x9":
-						$sent  = false;
-						$tok = strtok( $response, " ,.\n\t" );
-						while ( $tok !== false ) {
-							if ( is_numeric( $tok ) ) {
+						if ( $sent != false && $units_deducted == false ) {
+							
+							$saveMsgz = "INSERT INTO #__spcMessages(msgClientID,senderID,recipients,message,delivered,msgStatus,channel,unitsUsed,apiDlvrID,dlvrID) VALUES \n\t\t\t\t\t\t($smsClient,'" . addslashes( $sender ) . "','" . addslashes( implode( ",", $recipients ) ) . "','" . addslashes( $message ) . "', NOW(),'Sent','$channel','$credit','$apiDlvrID','#" . implode( "#", $wholeMessageId ) . "#')";
+							if ( $msgID > 0 )
+								$saveMsgz = "UPDATE #__spcMessages SET msgStatus = 'Sent', delivered=NOW(), unitsUsed = '$credit',apiDlvrID='$apiDlvrID', dlvrID='#" . implode( "#", $wholeMessageId ) . "#'  WHERE msgID = $msgID AND msgStatus = 'processing' AND schedule IS NOT NULL AND schedule < NOW()";
 								
-								$sent = ( $tok > $api["apiResponse"] ) ? true : $sent;
-							}
-							$tok = strtok( " ,.\n\t" );
+							$this->dbquery( $saveMsgz );
+							$query = "UPDATE #__spcClient SET Units = Units - $credit WHERE clientID = $smsClient";
+							$this->dbquery( $query );
+							$wholeMessageId = array( );
+							$units_deducted             = true;
 						}
-						break;
-					case "x10":
-						$sent                 = false;
-						$tok = strtok( $response, " ,.\n\t" );
-						while ( $tok !== false ) {
-							if ( is_numeric( $tok ) ) {
-								$sent  = ( $tok < $api["apiResponse"] ) ? true : $sent;
-							}
-							$tok = strtok( " ,.\n\t" );
-						}
-						break;
-					case "x11":
-						$sent = ( preg_match( $api["apiResponse"], $response ) ) ? true : false;
-						break;
-					default:
-						$sent = ( stripos( $response, $api["apiResponse"] ) !== false ) ? true : false;
-						break;
-				}
-				if ( $sent != false && $units_deducted == false ) { 
-					$saveMsgz = "INSERT INTO#__spcMessages(msgClientID,senderID,recipients,message,delivered,msgStatus,channel,unitsUsed) VALUES 
-					($smsClient,'".addslashes($sender)."','".addslashes(implode(",",$recipients))."','".addslashes($message)."', NOW(),'Sent','".$channel."',".$credit.")";
-					if($msgID > 0)$saveMsgz="UPDATE#__spcMessages SET msgStatus = 'Sent', delivered=NOW(), unitsUsed = $credit WHERE msgID = $msgID AND msgStatus like 'processing' AND schedule IS NOT NULL AND schedule < NOW()";
-                                        $this->dbquery($saveMsgz);
-					$this->dbquery("UPDATE#__spcClient SET Units = Units - ".$credit." WHERE clientID = ".$smsClient);
-					$units_deducted = true;
-				}
-			}
+					}
 				}
 			}
 			if ( !$units_deducted )
 				$credit = 0;
 		}
-		if ( $credit > 0 ) {// process suceesfull sms
+		if ( $credit > 0 ) {
+			
 			$_SESSION["outputDetails"] = $outputDetails;
 			if ( $availableCredit <= $this->setting( "lowUnits" ) && $oldBalance > $this->setting( "lowUnits" ) ) {
-				$zrzkusly              = "availableCredit";
-				$this->user["Units"]   = ${$zrzkusly};
+				
+				$this->user["Units"]   = $availableCredit;
 				$this->member["Units"] = $availableCredit;
 				if ( !empty( $this->settings["lowUnitsMessage"] ) ) {
 					$this->settings["lowUnitsMessage"] = $this->customizeMsg( $this->setting( "lowUnitsSMS" ), $this->member["username"], $this->member["name"], $this->member["email"], $this->member["GSM"], $availableCredit );
-					$this->notifyMember( $message, $this->settings["lowUnitsMessage"] );
+					$this->notifyMember( $smsClient, $this->settings["lowUnitsMessage"] );
 				}
 			}
 		}
@@ -819,14 +883,14 @@ class afrisoftClass
 	function dbrow( $sql, $repeat = 0 )
 	{
 		/* 	This function connects and queries a database. It returns a single row from d db as a 1d array. */
-		$ytggsctzyrm = "repeat";
+		
 		if ( $repeat === 0 ) {
-			$bmkblwayydj             = "sql";
-			$result = $this->dbquery( ${$bmkblwayydj} );
+			
+			$result = $this->dbquery( $sql );
 			if ( !$result )
 				return;
 			return mysql_fetch_assoc( $result );
-		} else if ( ${$ytggsctzyrm} === 1 ) {
+		} else if ( $repeat === 1 ) {
 			$this->result = $this->dbquery( $sql);
 			return $this->result;
 		} else {
@@ -1022,7 +1086,7 @@ class afrisoftClass
 				} else
 					$content = "";
 			} else {
-				${$vsgdocsa}        = curl_init( $url["protocol"] . $url["host"] . $url["path"] );
+				$ch       = curl_init( $url["protocol"] . $url["host"] . $url["path"] );
 				if ( $ch ) {
 					curl_setopt( $ch, CURLOPT_POST, 1 );
 					curl_setopt( $ch, CURLOPT_POSTFIELDS, $url["query"] );
